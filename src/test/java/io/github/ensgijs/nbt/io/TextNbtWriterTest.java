@@ -113,31 +113,17 @@ public class TextNbtWriterTest extends NbtTestCase {
 						{
 						  key: value,
 						  byte: 127b,
-						  array: [B;
-						    -128,
-						    0,
-						    127
-						  ],
-						  list: [
-						    foo,
-						    bar
-						  ]
+						  array: [B; -128, 0, 127],
+						  list: [foo, bar]
 						}""";
 
 		String ctExpectedSorted =
 				"""
 						{
-						  array: [B;
-						    -128,
-						    0,
-						    127
-						  ],
+						  array: [B; -128, 0, 127],
 						  byte: 127b,
 						  key: value,
-						  list: [
-						    foo,
-						    bar
-						  ]
+						  list: [foo, bar]
 						}""";
 		assertEquals(ctExpectedUnsorted, assertThrowsNoException(() -> TextNbtHelpers.toTextNbtUnsorted(ct)));
 		assertEquals(ctExpectedSorted, assertThrowsNoException(() -> TextNbtHelpers.toTextNbt(ct)));
@@ -215,64 +201,21 @@ public class TextNbtWriterTest extends NbtTestCase {
 		clt.addString("foo");
 		clt.addString("bar");
 		ct.put("list", clt);
-//		String ctExpectedUnsorted =
-//				"my-name-is: {\n" +
-//						"  key: \"value\",\n" +
-//						"  byte: 127b,\n" +
-//						"  array: [B;\n" +
-//						"    -128,\n" +
-//						"    0,\n" +
-//						"    127\n" +
-//						"  ],\n" +
-//						"  list: [\n" +
-//						"    \"foo\",\n" +
-//						"    \"bar\"\n" +
-//						"  ]\n" +
-//						"}";
-//		String ctExpectedSorted =
-//				"my-name-is: {\n" +
-//						"  array: [B;\n" +
-//						"    -128,\n" +
-//						"    0,\n" +
-//						"    127\n" +
-//						"  ],\n" +
-//						"  byte: 127b,\n" +
-//						"  key: \"value\",\n" +
-//						"  list: [\n" +
-//						"    \"foo\",\n" +
-//						"    \"bar\"\n" +
-//						"  ]\n" +
-//						"}";
-
 		String ctExpectedUnsorted =
 				"""
 						my-name-is: {
 						  key: value,
 						  byte: 127b,
-						  array: [B;
-						    -128,
-						    0,
-						    127
-						  ],
-						  list: [
-						    foo,
-						    bar
-						  ]
+						  array: [B; -128, 0, 127],
+						  list: [foo, bar]
 						}""";
 		String ctExpectedSorted =
 				"""
 						my-name-is: {
-						  array: [B;
-						    -128,
-						    0,
-						    127
-						  ],
+						  array: [B; -128, 0, 127],
 						  byte: 127b,
 						  key: value,
-						  list: [
-						    foo,
-						    bar
-						  ]
+						  list: [foo, bar]
 						}""";
 		assertEquals(ctExpectedUnsorted, assertThrowsNoException(() -> TextNbtHelpers.toTextNbtUnsorted(new NamedTag("my-name-is", ct))));
 		assertEquals(ctExpectedSorted, assertThrowsNoException(() -> TextNbtHelpers.toTextNbt(new NamedTag("my-name-is", ct))));
