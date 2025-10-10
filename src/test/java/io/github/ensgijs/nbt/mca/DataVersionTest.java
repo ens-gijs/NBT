@@ -76,7 +76,7 @@ public class DataVersionTest extends McaTestCase {
     }
 
     public void testBestForBetween() {
-        assertEquals(DataVersion.JAVA_1_9_15W32A, DataVersion.bestFor(150));
+        assertEquals(DataVersion.JAVA_1_9_15W32C, DataVersion.bestFor(106));
     }
 
     public void testBestForExactLast() {
@@ -187,7 +187,7 @@ public class DataVersionTest extends McaTestCase {
                     ZipFile zip = new ZipFile(jarFile);
                     ZipEntry ze = zip.getEntry("version.json");
                     if (ze == null) {
-                        System.err.println("Didn't find version.json file in " + jarFile.toPath());
+                        System.err.println(version + "> Didn't find version.json file in " + jarFile.toPath());
                         continue;
                     }
                     NamedTag versionInfo = new TextNbtDeserializer().fromStream(zip.getInputStream(ze));
