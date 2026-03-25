@@ -922,7 +922,25 @@ public enum DataVersion {
     JAVA_1_21_11_RC1(4668, 21, 11, "RC1"),
     JAVA_1_21_11_RC2(4669, 21, 11, "RC2"),
     JAVA_1_21_11_RC3(4670, 21, 11, "RC3"),
-    JAVA_1_21_11(4671, 21, 11),;
+    JAVA_1_21_11(4671, 21, 11),
+    JAVA_26_1_SNAPSHOT1(4764, 26, 1, "SNAPSHOT-1"),
+    JAVA_26_1_SNAPSHOT2(4765, 26, 1, "SNAPSHOT-2"),
+    JAVA_26_1_SNAPSHOT3(4767, 26, 1, "SNAPSHOT-3"),
+    JAVA_26_1_SNAPSHOT4(4768, 26, 1, "SNAPSHOT-4"),
+    JAVA_26_1_SNAPSHOT5(4770, 26, 1, "SNAPSHOT-5"),
+    JAVA_26_1_SNAPSHOT6(4774, 26, 1, "SNAPSHOT-6"),
+    JAVA_26_1_SNAPSHOT7(4775, 26, 1, "SNAPSHOT-7"),
+    JAVA_26_1_SNAPSHOT8(4776, 26, 1, "SNAPSHOT-8"),
+    JAVA_26_1_SNAPSHOT9(4777, 26, 1, "SNAPSHOT-9"),
+    JAVA_26_1_SNAPSHOT10(4778, 26, 1, "SNAPSHOT-10"),
+    JAVA_26_1_SNAPSHOT11(4779, 26, 1, "SNAPSHOT-11"),
+    JAVA_26_1_PRE1(4780, 26, 1, "PRE-1"),
+    JAVA_26_1_PRE2(4781, 26, 1, "PRE-2"),
+    JAVA_26_1_PRE3(4782, 26, 1, "PRE-3"),
+    JAVA_26_1_RC1(4783, 26, 1, "RC-1"),
+    JAVA_26_1_RC2(4784, 26, 1, "RC-2"),
+    JAVA_26_1_RC3(4785, 26, 1, "RC-3"),
+    JAVA_26_1(4786, 26, 1),;
 
     private static final int[] ids;
     private static final DataVersion latestFullReleaseVersion;
@@ -982,11 +1000,16 @@ public enum DataVersion {
         StringBuilder simpleStrBuilder = new StringBuilder();
         if (isWeeklyRelease) {
             simpleStrBuilder.append(buildDescription);
-        } else {
+        } else if (minor <= 21) {
             simpleStrBuilder.append("1.").append(minor);
             if (patch != 0) {
                 simpleStrBuilder.append('.').append(patch);
             }
+            if (buildDescription != null) {
+                simpleStrBuilder.append('-').append(buildDescription.toLowerCase(Locale.ENGLISH));
+            }
+        } else {
+            simpleStrBuilder.append(minor).append('.').append(patch);
             if (buildDescription != null) {
                 simpleStrBuilder.append('-').append(buildDescription.toLowerCase(Locale.ENGLISH));
             }
