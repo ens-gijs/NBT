@@ -30,7 +30,7 @@ public class DataVersionTest extends McaTestCase {
         for (DataVersion dv : DataVersion.values()) {
             if (dv.id() != 0) {
                 StringBuilder sb = new StringBuilder("JAVA_");
-                if (dv.minor() <= 21) sb.append("1_");
+                sb.append(dv.major()).append('_');
                 sb.append(dv.minor()).append('_');
                 if (dv.isFullRelease()) {
                     sb.append(dv.patch());
@@ -142,11 +142,11 @@ public class DataVersionTest extends McaTestCase {
             return;
         }
         // 1: weekly
-        // 2: has major indicator (null or literal "1.")
-        // 3: minor
+        // 2: major (always "1" up to 1.21.* - 2 digit year after 26.1)
+        // 3: minor?
         // 4: patch?
         // 5: descriptor? (pre-#, rc-#, snapshot-#, etc)
-        final Pattern vanillaVersionPattern = Pattern.compile("^(?:(\\d{2}w\\d{2}[a-z])|(1[.])?(\\d+)(?:[.](\\d+))?(?:-(.+))?)$");
+        final Pattern vanillaVersionPattern = Pattern.compile("^(?:(\\d{2}w\\d{2}[a-z])|(\\d+)(?:[.](\\d+))?(?:[.](\\d+))?(?:-(.+))?)$");
         final var isSaneVersionName = vanillaVersionPattern.asPredicate();
         final String mcVerRootStr = minecraftVersionsDirectory.toFile().getAbsolutePath();
 
@@ -177,6 +177,9 @@ public class DataVersionTest extends McaTestCase {
             Matcher m = vanillaVersionPattern.matcher(version);
             if (!m.matches())
                 continue;
+            if ("26w14a".equals(version)) {  // out of order data version usage for 26.1.1 april fools weekly
+                continue;
+            }
             if (Paths.get(mcVerRootStr, version).toFile().isDirectory()) {
                 DataVersion dv = DataVersion.find(version);
                 if (dv == null) {
@@ -195,14 +198,13 @@ public class DataVersionTest extends McaTestCase {
                     NamedTag versionInfo = new TextNbtDeserializer().fromStream(zip.getInputStream(ze));
                     int dataVersion = ((CompoundTag) versionInfo.getTag()).getInt("world_version");
                     StringBuilder sb = new StringBuilder("JAVA_");
-                    if (m.group(2) != null) sb.append("1_");
-                    StringBuilder sbArgs = new StringBuilder("(").append(dataVersion);
+                    StringBuilder sbArgs = new StringBuilder("(").append(dataVersion).append(", ").append(m.group(2));
                     String comment = "";
 
                     if (m.group(1) != null) {  // weekly
                         DataVersion nearest = DataVersion.bestFor(dataVersion);
                         if (nearest != null) {
-                            sb.append(nearest.minor()).append('_').append(nearest.patch());
+                            sb.append(nearest.major()).append('_').append(nearest.minor()).append('_').append(nearest.patch());
                             sbArgs.append(", ").append(nearest.minor()).append(", ").append(nearest.patch());
                             comment += "  // TODO: verify minor and patch versions are correct";
                         } else {
@@ -212,9 +214,8 @@ public class DataVersionTest extends McaTestCase {
                         sb.append('_').append(m.group(1).toUpperCase());
                         sbArgs.append(", ").append('"').append(m.group(1)).append('"');
                     } else {
-                        sb.append(m.group(3));
+                        sb.append(m.group(2)).append('_').append(m.group(3)).append('_');
                         sbArgs.append(", ").append(m.group(3));
-                        sb.append('_');
                         if (m.group(4) != null) {
                             sb.append(m.group(4));
                             sbArgs.append(", ").append(m.group(4));
