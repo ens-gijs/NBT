@@ -35,7 +35,7 @@ public class DataVersionTest extends McaTestCase {
                 if (dv.isFullRelease()) {
                     sb.append(dv.patch());
                 } else {
-                    if (dv.patch() > 0) sb.append(dv.patch()).append('_');
+                    if (dv.major() > 1 || dv.patch() > 0) sb.append(dv.patch()).append('_');
                     sb.append(dv.getBuildDescription().toUpperCase().replaceAll("-|\\s", ""));
                 }
                 assertEquals(sb.toString(), dv.name());
