@@ -951,6 +951,7 @@ public enum DataVersion {
     JAVA_26_2_0_SNAPSHOT2(4884, 26, 2, 0, "SNAPSHOT-2"),
     JAVA_26_2_0_SNAPSHOT3(4886, 26, 2, 0, "SNAPSHOT-3"),
     JAVA_26_2_0_SNAPSHOT4(4887, 26, 2, 0, "SNAPSHOT-4"),
+    JAVA_26_2_0_SNAPSHOT5(4889, 26, 2, 0, "SNAPSHOT-5"),
     ;
 
     private static final int[] ids;
