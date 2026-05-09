@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.1.0'
+    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT'
 }
 ```
 
@@ -28,7 +28,7 @@ dependencies {
 <dependency>
     <groupId>io.github.ens-gijs.nbt</groupId>
     <artifactId>nbt-mca</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ If you were previously consuming this fork via `./gradlew publishToMavenLocal`:
 
 | Before                                       | After                                                 |
 | -------------------------------------------- | ----------------------------------------------------- |
-| `io.github.ensgijs:ens-nbt:0.1-SNAPSHOT`     | `io.github.ens-gijs.nbt:nbt-mca:0.1.0`        |
+| `io.github.ensgijs:ens-nbt:0.1-SNAPSHOT`     | `io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT`        |
 
 The Java package layout (`io.github.ensgijs.nbt.*`) is unchanged — no code changes required, just the dependency coordinate.
 
