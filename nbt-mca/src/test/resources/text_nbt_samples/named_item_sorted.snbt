@@ -1,0 +1,23 @@
+"": {
+  DataVersion: 4189,
+  components: {
+    "minecraft:custom_data": {
+      PublicBukkitValues: {
+        "survival:custom_name": "<#ff0033 #bold #italic>The best server",
+        "survival:custom_named_by": _Ross__
+      }
+    },
+    "minecraft:custom_name": "{\"extra\":[{\"bold\":true,\"color\":\"#FF0033\",\"italic\":true,\"obfuscated\":false,\"strikethrough\":false,\"text\":\"The best server\",\"underlined\":false}],\"text\":\"\"}",
+    "minecraft:enchantments": {
+      levels: {
+        "minecraft:blast_protection": 4,
+        "minecraft:depth_strider": 3,
+        "minecraft:feather_falling": 4,
+        "minecraft:mending": 1,
+        "minecraft:unbreaking": 3
+      }
+    }
+  },
+  count: 1,
+  id: "minecraft:netherite_boots"
+}

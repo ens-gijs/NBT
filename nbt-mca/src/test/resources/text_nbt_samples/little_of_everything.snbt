@@ -1,0 +1,108 @@
+{
+  "string_tag": "Hello, world!",
+  "byte_tag": 100b,
+  "short_tag": 2000s,
+  "int_tag": 3000000,
+  "long_tag": 4000000000L,
+  "float_tag": 1.23f,
+  "double_tag": 4.56d,
+  "byte_array_tag": [B;1,2,3,4,5],
+  "int_array_tag": [I;6,7,8,9,10],
+  "long_array_tag": [L;11,12,13,14,15],
+  "empty_list_tag": [],
+  "list_of_bytes": [1b, 2b, 3b],
+  "list_of_shorts": [1s, 2s, 3s],
+  "list_of_ints": [1, 2, 3],
+  "list_of_longs": [1L, 2L, 3L],
+  "list_of_floats": [1.0f, 2.0f, 3.0f],
+  "list_of_doubles": [1.0d, 2.0d, 3.0d],
+  "list_of_byte_arrays": [[B;1,1],[B;2,2],[B;3,3]],
+  "list_of_int_arrays": [[I;1,1],[I;2,2],[I;3,3]],
+  "list_of_long_arrays": [[L;1,1],[L;2,2],[L;3,3]],
+  "list_of_strings": ["a", "b", "c"],
+  "list_of_empty_compounds": [{}, {}],
+  "list_of_compounds": [
+    {
+      "a_tag": 1b,
+      "z_tag": 2b
+    },
+    {
+      "b_tag": 1b,
+      "y_tag": 2b
+    }
+  ],
+  "list_of_lists": [
+    [1b, 2b],
+    [3b, 4b]
+  ],
+  "compound_tag_z": {
+    "level1_tag": 100,
+    "level1_compound": {
+      "level2_tag": 200,
+      "level2_list": [
+        {
+          "list_compound_a": 1,
+          "list_compound_b": 2
+        },
+        {
+          "list_compound_z": 3,
+          "list_compound_y": 4
+        }
+      ]
+    },
+    "level1_list": [
+      "a",
+      "c",
+      "b"
+    ]
+  },
+  "compound_tag_g": {
+    "some_number": 99
+  },
+  "item_1": {
+    components: {
+      "minecraft:custom_data": {
+        PublicBukkitValues: {
+          "eternalsurvival:custom_name": "<#ff0033 #bold #italic>The best server",
+          "eternalsurvival:custom_named_by": frankyjim
+        }
+      },
+      "minecraft:custom_name": "{\"extra\":[{\"bold\":true,\"color\":\"#FF0033\",\"italic\":true,\"obfuscated\":false,\"strikethrough\":false,\"text\":\"The best server\",\"underlined\":false}],\"text\":\"\"}",
+      "minecraft:enchantments": {
+        levels: {
+          "minecraft:mending": 1,
+          "minecraft:depth_strider": 3,
+          "minecraft:blast_protection": 4,
+          "minecraft:feather_falling": 4,
+          "minecraft:unbreaking": 3
+        }
+      }
+    },
+    count: 1,
+    DataVersion: 4189,
+    id: "minecraft:netherite_boots"
+  },
+  "item2": {
+     components: {
+       "minecraft:attribute_modifiers": {
+         modifiers: [
+           {
+             amount: -0.9d,
+             id: "minecraft:",
+             operation: add_value,
+             type: "minecraft:attack_damage"
+           }
+         ]
+       },
+       "minecraft:enchantments": {
+         levels: {
+           "minecraft:knockback": 100,
+           "minecraft:vanishing_curse": 1
+         }
+       }
+     },
+     count: 1,
+     DataVersion: 4189,
+     id: "minecraft:stick"
+   }
+}

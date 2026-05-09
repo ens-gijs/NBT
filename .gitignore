@@ -5,9 +5,8 @@ CLAUDE.local.md
 
 ### Publishing secrets ###
 # Credentials for Sonatype Central Portal + GPG signing live in user-home
-# (~/.gradle/gradle.properties). If you do create a project-local copy, never
-# commit it. See gradle.properties.example for the keys we read.
-/gradle.properties
+# (~/.gradle/gradle.properties). The committed root /gradle.properties only
+# holds public per-module version numbers — never put credentials there.
 secring.gpg
 *.asc
 
@@ -29,6 +28,8 @@ graphify-out/cost.json
 # gradle gitignore
 .gradle
 /build/
+# subproject build dirs (nbt-core/build, nbt-mca/build, …)
+**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

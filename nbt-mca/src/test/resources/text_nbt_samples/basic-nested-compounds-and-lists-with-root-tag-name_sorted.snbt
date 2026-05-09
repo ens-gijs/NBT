@@ -1,0 +1,29 @@
+"": {
+  byteArray: [B; 4, -3, 2],
+  intArray: [I; 1, 33554432, 3],
+  longArray: [L; 1125899906842624, 2],
+  nestedCompound: {
+    blame: me,
+    deeper: [
+      {
+        a: [
+          {done: 10, not: home}
+        ],
+        x: 42
+      }
+    ],
+    listOfCompounds: [
+      {x: 17, z: 19},
+      {
+        optimize: {u: 1, v: 0},
+        x: 7,
+        z: 9
+      }
+    ],
+    name: value12
+  },
+  nestedListsOfStrings: [
+    [world, is],
+    [hello]
+  ]
+}

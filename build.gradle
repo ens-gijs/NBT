@@ -1,226 +1,136 @@
+// Root project — no source of its own. All shared subproject config lives here;
+// per-module specifics (coordinates, deps, POM description) live in
+// nbt-core/build.gradle and nbt-mca/build.gradle.
+//
+// Plugins are declared with `apply false` at the root and `apply` is invoked
+// inside `subprojects { ... }` so each subproject gets its own configured copy.
 plugins {
-    id 'java-library'
-    id 'eclipse'
-    id 'idea'
-    id 'jacoco'
     // https://vanniktech.github.io/gradle-maven-publish-plugin/central/
-    id 'com.vanniktech.maven.publish' version '0.36.0'
+    id 'com.vanniktech.maven.publish' version '0.36.0' apply false
     // https://github.com/melix/japicmp-gradle-plugin — binary-compatibility check
-    // against the previously published artifact. Currently advisory-only (see below).
-    id 'me.champeau.gradle.japicmp' version '0.4.6'
-    // Add the JMH Gradle plugin
-    id 'me.champeau.jmh' version '0.7.1'
+    // against the previously published artifact. Currently advisory-only at 0.x.
+    id 'me.champeau.gradle.japicmp' version '0.4.6' apply false
+    // JMH benchmarks (currently only used by :nbt-core).
+    id 'me.champeau.jmh' version '0.7.3' apply false
 }
 
-// groupId matches the verified Central Portal namespace `io.github.ens-gijs`
-// (hyphen mirrors the GitHub username). Java packages stay `io.github.ensgijs`
-// since hyphens aren't legal in Java identifiers — the two are intentionally
-// decoupled and that's a normal pattern for hyphenated GitHub usernames.
-//
-// NOTE: this project will be split into `nbt-core` + `nbt-mca` subprojects
-// after the first release. When that happens, move the `mavenPublishing`,
-// `signing`, `japicmp`, and reproducible-jar config into a `subprojects { ... }`
-// block. Consumer migration is transparent because `nbt-mca` will depend on
-// `nbt-core`, and existing users of `nbt-mca` keep working unchanged.
-group = 'io.github.ens-gijs.nbt'
-version = '0.2.0-SNAPSHOT'
+allprojects {
+    // groupId matches the verified Central Portal namespace `io.github.ens-gijs`
+    // (hyphen mirrors the GitHub username). Java packages stay `io.github.ensgijs`
+    // since hyphens aren't legal in Java identifiers — the two are intentionally
+    // decoupled and that's a normal pattern for hyphenated GitHub usernames.
+    group = 'io.github.ens-gijs.nbt'
 
-java {
-    // sources + javadoc jars are produced by the vanniktech plugin — don't call
-    // withSourcesJar() / withJavadocJar() here or the two definitions collide.
-    sourceCompatibility = JavaLanguageVersion.of(17)
-    targetCompatibility = JavaLanguageVersion.of(17)
-}
-
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    jmh 'org.openjdk.jmh:jmh-core:1.37'
-    jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
-}
-
-// Configure signing with in-memory GPG key from env vars (only if available)
-afterEvaluate {
-    def signingKeyId = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyId')
-    def signingKey = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKey')
-    def signingPassword = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyPassword')
-
-    if (signingKeyId && signingKey && signingPassword) {
-        apply plugin: 'signing'
-        signing {
-            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        }
+    repositories {
+        mavenCentral()
     }
 }
 
-// Reproducible artifacts — same source + same deps → byte-identical jars.
-// Strips file timestamps (which would otherwise embed build-time) and orders
-// entries deterministically.
-tasks.withType(AbstractArchiveTask).configureEach {
-    preserveFileTimestamps = false
-    reproducibleFileOrder = true
-}
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'jacoco'
+    apply plugin: 'com.vanniktech.maven.publish'
+    apply plugin: 'me.champeau.gradle.japicmp'
 
-// Configure the JMH plugin
-jmh {
-    // Use an existing test source set for JMH benchmarks, or let the plugin create one
-    // jmh.includes is an array of regular expressions that should match against the
-    // fully qualified names of classes that contain benchmarks.
-    includes = [".*"]
-
-    warmupIterations = 5
-    iterations = 10
-    fork = 1
-
-    resultFormat = 'json'
-    resultsFile = new File('build/reports/jmh/results.json')
-}
-
-javadoc {
-    source = sourceSets.main.allJava
-    destinationDir = file("./doc/")
-    include 'io/github/ensgijs/nbt/**'
-    options.windowTitle 'NBT (ENS)'
-    options.encoding 'UTF-8'
-    options.linkSource true
-    options.links 'https://docs.oracle.com/javase/17/docs/api/'
-    options {
-        // Syntax: 'tag_name:placement:header_text'
-        // 'a' means the tag can be used in all places
-        tags(
-                'apiNote:a:API Note:',
-                'implSpec:a:Implementation Requirements:',
-                'implNote:a:Implementation Note:'
-        )
-        // Don't fail the build on javadoc lint warnings — only on actual errors.
-        addStringOption('Xdoclint:none', '-quiet')
+    java {
+        // sources + javadoc jars are produced by the vanniktech plugin — don't call
+        // withSourcesJar() / withJavadocJar() here or the two definitions collide.
+        sourceCompatibility = JavaLanguageVersion.of(17)
+        targetCompatibility = JavaLanguageVersion.of(17)
     }
-}
 
-jacocoTestReport {
-    reports {
-        xml.required = true
-        html.required = true
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+
+    dependencies {
+        testImplementation 'junit:junit:4.13.2'
     }
-}
 
-// Maven Central publishing — handled by the vanniktech plugin.
-// It auto-creates sources + javadoc jars, signs all artifacts, and uploads
-// to the Sonatype Central Portal. Credentials & signing keys are read from
-// gradle properties / env vars.
-mavenPublishing {
-    // The SonatypeHost arg was removed in 0.32+; Central Portal is the only host.
-    // Both `publishToMavenCentral` and `publishAndReleaseToMavenCentral` tasks
-    // are exposed regardless — pick the right one in CI vs. local dry-runs.
-    publishToMavenCentral()
-    signAllPublications()
+    // Configure signing with in-memory GPG key from env vars (only if available).
+    afterEvaluate {
+        def signingKeyId = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyId')
+        def signingKey = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKey')
+        def signingPassword = System.getenv('ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyPassword')
 
-    coordinates(project.group.toString(), 'nbt-mca', project.version.toString())
-
-    pom {
-        name = 'nbt-mca'
-        description = 'NBT and Minecraft Java Edition .mca region/entities/POI file library (forked from Querz/NBT).'
-        url = 'https://github.com/ens-gijs/NBT'
-        inceptionYear = '2024'
-
-        licenses {
-            license {
-                name = 'MIT License'
-                url = 'https://opensource.org/licenses/MIT'
-                distribution = 'repo'
+        if (signingKeyId && signingKey && signingPassword) {
+            apply plugin: 'signing'
+            signing {
+                useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
             }
         }
-        developers {
-            developer {
-                id = 'ens-gijs'
-                name = 'Ens Gijs (Ross)'
-                url = 'https://github.com/ens-gijs'
+    }
+
+    // Reproducible artifacts — same source + same deps → byte-identical jars.
+    tasks.withType(AbstractArchiveTask).configureEach {
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+    }
+
+    javadoc {
+        options.encoding = 'UTF-8'
+        options.linkSource = true
+        options.links 'https://docs.oracle.com/javase/17/docs/api/'
+        options {
+            // Syntax: 'tag_name:placement:header_text'
+            // 'a' means the tag can be used in all places
+            tags(
+                    'apiNote:a:API Note:',
+                    'implSpec:a:Implementation Requirements:',
+                    'implNote:a:Implementation Note:'
+            )
+            // Don't fail the build on javadoc lint warnings — only on actual errors.
+            addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.required = true
+            html.required = true
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Binary-compatibility check via japicmp.
+    //
+    // Compares this build's jar against the previously published version on
+    // Maven Central. Pre-1.0: best-effort, advisory-only. Flip the failOn*
+    // flags to `true` at 1.0.0 so accidental binary breaks require an explicit
+    // major-version bump.
+    //
+    // Run with: `./gradlew :<module>:japicmp -PpreviousVersion=<v>`.
+    // ----------------------------------------------------------------------
+    tasks.register('japicmp', me.champeau.gradle.japicmp.JapicmpTask) {
+        description = "Reports API/ABI changes vs. the previously published version of ${project.name} on Maven Central."
+        group = 'verification'
+
+        def previousVersion = providers.gradleProperty('previousVersion').orNull
+        onlyIf {
+            if (previousVersion == null) {
+                logger.lifecycle("japicmp: skipped — pass -PpreviousVersion=<v> to enable.")
+                return false
             }
+            return true
         }
-        scm {
-            connection = 'scm:git:https://github.com/ens-gijs/NBT.git'
-            developerConnection = 'scm:git:ssh://git@github.com/ens-gijs/NBT.git'
-            url = 'https://github.com/ens-gijs/NBT'
+
+        if (previousVersion != null) {
+            def previous = dependencies.create("${project.group}:${project.name}:${previousVersion}")
+            def previousConfig = configurations.detachedConfiguration(previous)
+            previousConfig.transitive = false
+            oldClasspath.from(previousConfig)
+            newClasspath.from(tasks.named('jar'))
+            newArchives.from(tasks.named('jar'))
         }
-        issueManagement {
-            system = 'GitHub'
-            url = 'https://github.com/ens-gijs/NBT/issues'
-        }
+
+        // 0.x: report-only. Flip these all to `true` at 1.0.0.
+        ignoreMissingClasses = true
+        failOnSourceIncompatibility = false
+        failOnModification = false
+        onlyBinaryIncompatibleModified = true
+
+        htmlOutputFile = layout.buildDirectory.file("reports/japicmp/${project.name}.html").get().asFile
+        txtOutputFile  = layout.buildDirectory.file("reports/japicmp/${project.name}.txt").get().asFile
     }
-}
-
-// ----------------------------------------------------------------------
-// Binary-compatibility check via japicmp.
-//
-// Compares this build's jar against the previously published version on
-// Maven Central and reports any incompatible API/ABI changes.
-//
-// Behavior by version:
-//   - 0.x:  baseline lookup is best-effort; failures are warnings only.
-//           Pre-1.0 you're explicitly allowed to break things.
-//   - >=1.0: should be flipped to fail the build on incompatibility (see
-//           the `failOnXxx` flags below) so accidental binary breaks
-//           require an explicit major-version bump.
-//
-// The `previousArtifact` task input is set lazily — it tries the
-// 'previousVersion' project property if provided (e.g. -PpreviousVersion=0.1.0),
-// otherwise it skips. Run with: `./gradlew japicmp -PpreviousVersion=<v>`.
-// ----------------------------------------------------------------------
-tasks.register('japicmp', me.champeau.gradle.japicmp.JapicmpTask) {
-    description = 'Reports API/ABI changes vs. the previously published version on Maven Central.'
-    group = 'verification'
-
-    def previousVersion = providers.gradleProperty('previousVersion').orNull
-    onlyIf {
-        if (previousVersion == null) {
-            logger.lifecycle("japicmp: skipped — pass -PpreviousVersion=<v> to enable.")
-            return false
-        }
-        return true
-    }
-
-    if (previousVersion != null) {
-        def previous = dependencies.create("${project.group}:nbt-mca:${previousVersion}")
-        def previousConfig = configurations.detachedConfiguration(previous)
-        previousConfig.transitive = false
-        oldClasspath.from(previousConfig)
-        newClasspath.from(tasks.named('jar'))
-        newArchives.from(tasks.named('jar'))
-    }
-
-    // 0.x: report-only. Flip these all to `true` at 1.0.0.
-    ignoreMissingClasses = true
-    failOnSourceIncompatibility = false
-    failOnModification = false
-    onlyBinaryIncompatibleModified = true
-
-    htmlOutputFile = layout.buildDirectory.file("reports/japicmp/nbt-mca.html").get().asFile
-    txtOutputFile  = layout.buildDirectory.file("reports/japicmp/nbt-mca.txt").get().asFile
-}
-
-tasks.register('profilingRun', JavaExec) {
-    mainClass = 'io.github.ensgijs.nbt.profiler.ProfilingRunner'
-    classpath = sourceSets.main.runtimeClasspath
-    classpath += sourceSets.test.runtimeClasspath
-    classpath += sourceSets.jmh.runtimeClasspath
-
-    doFirst {
-        file('build/jfr-profiling').mkdirs()
-    }
-
-    def jfrSettingsFile = sourceSets.jmh.resources.find {it.name == 'profiler_settings.jfc'}
-    if (!jfrSettingsFile) {
-        throw new GradleException("JFR profiler_settings.jfc file not found in jmh/resources folder.")
-    }
-
-    // Add JVM arguments to enable JFR and save a recording
-    jvmArgs += [
-            "-XX:StartFlightRecording=duration=10s,filename=build/jfr-profiling/profiling-run.jfr,settings=${jfrSettingsFile.getAbsolutePath()}"
-    ]
 }
