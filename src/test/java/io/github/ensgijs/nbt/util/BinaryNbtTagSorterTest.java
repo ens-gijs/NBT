@@ -26,7 +26,7 @@ public class BinaryNbtTagSorterTest extends NbtTestCase {
 //        System.out.println("\nINPUT(HEX DATA)");
 //        System.out.println(HEX_FORMATTER.formatHex(controlUnordered));
 
-        byte[] actual = new BinaryNbtTagSorterV4().sort(controlUnordered);
+        byte[] actual = new BinaryNbtTagSorter().sort(controlUnordered);
 
 //        System.out.println("\nEXPECTED(ORDERED HEX DATA)");
 //        System.out.println(HEX_FORMATTER.formatHex(controlOrdered));
@@ -45,7 +45,7 @@ public class BinaryNbtTagSorterTest extends NbtTestCase {
         byte[] nbt = HEX_FORMATTER.parseHex("0A 00 00 08 00 04 74 65 73 74 00 05 76 61 6C 75 65 00");
 //        NamedTag parsedTag = BinaryNbtHelpers.deserializeBytes(nbt);
 //        System.out.println(TextNbtHelpers.toTextNbt(parsedTag, false, false));
-        byte[] sortedNbt = new BinaryNbtTagSorterV4().sort(nbt);
+        byte[] sortedNbt = new BinaryNbtTagSorter().sort(nbt);
         assertArrayEquals(nbt, sortedNbt);
     }
 
