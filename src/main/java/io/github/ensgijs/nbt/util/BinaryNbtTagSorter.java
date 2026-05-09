@@ -63,6 +63,7 @@ public class BinaryNbtTagSorter {
     private static final byte COMPOUND = (byte) 10;
     private static final byte INT_ARRAY = (byte) 11;
     private static final byte LONG_ARRAY = (byte) 12;
+    private static final byte[] TAG_DATA_SIZE = new byte[] {0, 1, 2, 4, 8, 4, 8, 1, -1, -1, -1, 4, 8};
     private static final TagDataComparator TAG_DATA_COMPARATOR = new TagDataComparator();
 
     private UnsafeFastByteArrayIO out;
@@ -140,8 +141,7 @@ public class BinaryNbtTagSorter {
             for (int i = 0; i < listLength; i++) {
                 final int start = tag.position;
                 skipTagData(listType, tag);
-                final int end = tag.position;
-                listItems.add(new UnsafeFastByteArrayIO(tag.buffer, start, end));
+                listItems.add(new UnsafeFastByteArrayIO(tag.buffer, start, tag.position));
             }
 
             for (final UnsafeFastByteArrayIO entry : listItems) {
@@ -190,8 +190,12 @@ public class BinaryNbtTagSorter {
             case LIST:
                 final byte listType = tag.readByte();
                 final int listLength = tag.readInt();
-                for (int i = 0; i < listLength; i++) {
-                    skipTagData(listType, tag);
+                if (listType >= BYTE_ARRAY) {
+                    for (int i = 0; i < listLength; i++) {
+                        skipTagData(listType, tag);
+                    }
+                } else {
+                    tag.position += TAG_DATA_SIZE[listType] * listLength;
                 }
                 break;
             case COMPOUND:
@@ -200,12 +204,12 @@ public class BinaryNbtTagSorter {
                     if (childType == END) {
                         break;
                     }
-                    tag.skip(tag.readUShort());  // skip name string
+                    tag.skipString();  // skip name string
                     skipTagData(childType, tag);
                 }
                 break;
             default:
-                throw new IOException("Unknown tag type: " + type + " at pos " + tag.position);
+                throw new IOException("Unknown tag type: " + type + " at pos " + (tag.position - 5 ));
         }
         // if (DEBUG_LOG) System.out.printf("  %s< Finished skipping tag data for type %d at pos %d\n", "  ".repeat(depth--), type, tag.position);
     }
