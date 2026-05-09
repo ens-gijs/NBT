@@ -56,6 +56,13 @@ public class BinaryNbtTagSorterTest extends NbtTestCase {
         validateNbt("mca_palettes/block_states-1.20.4-6entries.snbt");
         validateNbt("text_nbt_samples/little_of_everything.snbt");
         validateNbt("1_20_4/region/r.0.0/0299.11.9.snbt");
+
+        validateNbt("1_20_4/region/r.0.0/0299.11.9_sorted.snbt");
+        validateNbt("text_nbt_samples/named_item_sorted.snbt");
+        validateNbt("text_nbt_samples/unnamed_tag_sample_sorted.snbt");
+        validateNbt("mca_palettes/block_states-1.20.4-6entries_sorted.snbt");
+        validateNbt("text_nbt_samples/little_of_everything_sorted.snbt");
+        validateNbt("text_nbt_samples/basic-nested-compounds-and-lists-with-root-tag-name_sorted.snbt");
     }
 
     public void _testPerformance() throws IOException {
