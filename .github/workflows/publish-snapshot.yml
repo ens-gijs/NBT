@@ -1,0 +1,64 @@
+name: publish-snapshot
+
+# Publishes 0.x.y-SNAPSHOT to the Sonatype Central Portal snapshot repo on every
+# push to master that touches build inputs. Skips doc-only / test-only churn so
+# we don't spam the snapshot repo with no-op publishes.
+#
+# Requires the same secrets as publish.yml:
+#   MAVEN_CENTRAL_USERNAME            — Central Portal user token name
+#   MAVEN_CENTRAL_PASSWORD            — Central Portal user token password
+#   SIGNING_IN_MEMORY_KEY             — armored GPG private key
+#   SIGNING_IN_MEMORY_KEY_ID          — last 8 hex chars of the key ID
+#   SIGNING_IN_MEMORY_KEY_PASSWORD    — GPG passphrase
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'src/main/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'gradlew.bat'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cancel an in-flight snapshot publish if a newer commit lands — only the latest
+# snapshot needs to make it to Central.
+concurrency:
+  group: publish-snapshot
+  cancel-in-progress: true
+
+jobs:
+  publish-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify version is a SNAPSHOT
+        # Belt-and-braces: refuse to push a non-SNAPSHOT through this workflow.
+        # A non-SNAPSHOT release should only come from the tag-driven publish.yml.
+        run: |
+          v=$(./gradlew -q properties | awk '/^version: / {print $2}')
+          echo "Project version: $v"
+          case "$v" in
+            *-SNAPSHOT) ;;
+            *) echo "::error::Refusing to snapshot-publish non-SNAPSHOT version '$v'."; exit 1 ;;
+          esac
+      - name: Publish SNAPSHOT to Maven Central
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKey: ${{ secrets.SIGNING_IN_MEMORY_KEY }}
+          ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyId: ${{ secrets.SIGNING_IN_MEMORY_KEY_ID }}
+          ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyPassword: ${{ secrets.SIGNING_IN_MEMORY_KEY_PASSWORD }}
+        # publishToMavenCentral (no AndRelease) is correct for snapshots — the
+        # Central snapshot repo is mutable and there's no "release" step.
+        run: ./gradlew publishToMavenCentral --no-configuration-cache --stacktrace
