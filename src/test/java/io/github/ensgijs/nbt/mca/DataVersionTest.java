@@ -136,11 +136,13 @@ public class DataVersionTest extends McaTestCase {
     // is limited by what Mojang puts into the version manifest. Some versions, it appears, don't
     // make it into the manifest such as the combat test builds and other experimental builds.
     public void testFetchMissingDataVersionInformation() throws IOException {
-        Path minecraftVersionsDirectory = Paths.get(System.getenv("APPDATA"), ".minecraft", "versions");
-        if (!minecraftVersionsDirectory.toFile().exists()) {
-            // probably not on Windows
-            return;
-        }
+        final String appDataPath = System.getenv("APPDATA");
+        // probably not on Windows
+        if (appDataPath == null) return;
+        Path minecraftVersionsDirectory = Paths.get(appDataPath, ".minecraft", "versions");
+        // probably not on Windows
+        if (!minecraftVersionsDirectory.toFile().exists()) return;
+
         // 1: weekly
         // 2: major (always "1" up to 1.21.* - 2 digit year after 26.1)
         // 3: minor?
