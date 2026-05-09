@@ -23,7 +23,7 @@ public class McaReadWriteIdempotencyTest extends McaFileBaseTest {
      * This folder should be set in .getignore
      * <p>When these test</p>
      */
-    private boolean DUMP_TESTDBG_OUTPUT = true;
+    private boolean DUMP_TESTDBG_OUTPUT = false;
 
     /**
      * When set, the nbt tag for the region file will be cleared after parsing and before writing to check for any missed tags.
