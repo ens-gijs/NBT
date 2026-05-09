@@ -95,14 +95,8 @@ public class TagTest extends NbtTestCase {
 
         assertEquals("""
                 {
-                  key_compound: {
-                    one: 1,
-                    str: thing
-                  },
-                  key_float_array: [
-                    12.7f,
-                    99.8f
-                  ],
+                  key_compound: {one: 1, str: thing},
+                  key_float_array: [12.7f, 99.8f],
                   key_int: 42
                 }""", TextNbtHelpers.toTextNbt(Tag.asTag(rawMap), true));
 
