@@ -23,7 +23,7 @@ plugins {
 // block. Consumer migration is transparent because `nbt-mca` will depend on
 // `nbt-core`, and existing users of `nbt-mca` keep working unchanged.
 group = 'io.github.ens-gijs.nbt'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.0'
 
 java {
     // sources + javadoc jars are produced by the vanniktech plugin — don't call
