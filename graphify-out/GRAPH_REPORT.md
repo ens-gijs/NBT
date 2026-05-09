@@ -1,12 +1,12 @@
-# Graph Report - F:\Archive\Programming\Java\ThirdParty\QuerzNbt  (2026-05-09)
+# Graph Report - F:\Archive\Programming\Java\ThirdParty\QuerzNbt\.claude\worktrees\relaxed-liskov-0597d1  (2026-05-09)
 
 ## Corpus Check
-- 179 files · ~653,713 words
+- 170 files · ~369,231 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2651 nodes · 8330 edges · 48 communities detected
-- Extraction: 43% EXTRACTED · 57% INFERRED · 0% AMBIGUOUS · INFERRED: 4710 edges (avg confidence: 0.8)
+- 2545 nodes · 9335 edges · 44 communities detected
+- Extraction: 37% EXTRACTED · 63% INFERRED · 0% AMBIGUOUS · INFERRED: 5896 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -54,10 +54,6 @@
 - [[_COMMUNITY_Community 41|Community 41]]
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
-- [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
-- [[_COMMUNITY_Community 46|Community 46]]
-- [[_COMMUNITY_Community 47|Community 47]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `TerrainChunkBase` - 73 edges
@@ -72,239 +68,201 @@
 10. `LongArrayTagPackedIntegersTest` - 49 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `doSearch()` --calls--> `indexFilesLoaded()`  [INFERRED]
-  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\search.js → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script.js
-- `selectTab()` --calls--> `$()`  [INFERRED]
-  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\search-page.js → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script-dir\jquery-3.7.1.min.js
-- `collapse()` --calls--> `$()`  [INFERRED]
-  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\search.js → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script-dir\jquery-3.7.1.min.js
-- `i()` --calls--> `x()`  [INFERRED]
-  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script-dir\jquery-ui.min.js → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script-dir\jquery-3.7.1.min.js
-- `renderResults()` --calls--> `show()`  [INFERRED]
-  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\search-page.js → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\doc\script.js
+- `DataVersion()` --calls--> `toString()`  [EXTRACTED]
+  F:\Archive\Programming\Java\ThirdParty\QuerzNbt\.claude\worktrees\relaxed-liskov-0597d1\nbt-mca\src\main\java\io\github\ensgijs\nbt\mca\DataVersion.java → F:\Archive\Programming\Java\ThirdParty\QuerzNbt\.claude\worktrees\relaxed-liskov-0597d1\nbt-mca\src\main\java\io\github\ensgijs\nbt\mca\DataVersion.java  _Bridges community 4 → community 14_
 
 ## Communities
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
-Nodes (24): IntPointXZ, IntPointXZTest, LegacyBiomes, LoadFlags, McaEntitiesFileTest, McaFileBaseTest, McaFileChunkIteratorTest, McaFileHelpers (+16 more)
+Nodes (14): ChunkBaseTest, latest(), EntitiesChunk, EntitiesChunkTest, Entity, EntityBase, EntityImplTest, EntityUtil (+6 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.02
-Nodes (22): BigEndianNbtOutputStream, ByteArrayTagTest, NotAnArrayTag, ByteTagTest, CompoundTagTest, DoubleTagTest, EndTagTest, ExceptionSupplier (+14 more)
+Nodes (27): ArrayTag, AutoTypingDemoTest, BigEndianNbtOutputStream, ByteArrayTagTest, NotAnArrayTag, ByteTag, ByteTagTest, CompressionTypeTest (+19 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.02
-Nodes (13): ChunkBaseTest, latest(), EntitiesChunk, EntitiesChunkTest, Entity, EntityBase, EntityImplTest, EntityUtil (+5 more)
+Cohesion: 0.03
+Nodes (13): BenchmarkBase, PerfTest, BlockStateTag, CompoundTagTest, detect(), McaFileStreamingWriter, ObservedCompoundTag, PoiChunkBase (+5 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.02
-Nodes (15): ByteArrayTag, ByteTag, CompoundTag, CompoundTagIterator, DoubleTag, FloatTag, IntArrayTag, IntTag (+7 more)
+Nodes (18): LegacyBiomes, LoadFlags, McaEntitiesFile, ChunkIteratorImpl, McaFileBase, McaFileChunkIteratorTest, McaFileStreamingWriterTest, McaPoiFile (+10 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.04
-Nodes (13): PerfTest, McaDumper, ObservedCompoundTag, ArchiveMcaStreamSupplier, FileMcaStreamSupplier, McaStreamSupplier, RegionFileRelocator, SourcePathParser (+5 more)
+Nodes (15): ByteArrayTag, DataVersion(), DoubleTag, FloatTag, IntArrayTag, IntTag, LongArrayTag, Builder (+7 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.03
-Nodes (11): IndexEvaluator, IntPointXYZ, He(), Mutable, CursorIterator, entryCount(), PaletteCorruptedException, PalettizedCuboid (+3 more)
+Cohesion: 0.04
+Nodes (14): BlockStateTagTest, find(), EntitiesChunkBaseTest, IllegalEntityTagException, ListTagTest, McaDumper, McaEntitiesFileTest, McaPoiFileTest (+6 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.03
-Nodes (6): EntitiesChunkBase, EntitiesChunkBaseTest, McaTestCase, PoiChunkTest, TerrainChunkBase, TerrainSectionBase
+Nodes (15): EntityFactory, EntityCreatorStub, EntityFactoryTest, EntityStub, IntPointXZ, IntPointXZTest, McaFileBaseTest, McaFileHelpers (+7 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.06
-Nodes (6): ArrayTag, Builder, IteratorImpl, LongArrayTagPackedIntegers, RemapFunction, LongArrayTagPackedIntegersTest
+Cohesion: 0.04
+Nodes (11): ChunkIterator, IdentityHelper, NullRejectingListIterator, IteratorImpl, Mutable, CursorIterator, entryCount(), PaletteCorruptedException (+3 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.02
-Nodes (23): BenchmarkBase, BinaryNbtDeserializer, BinaryNbtHelpers, BinaryNbtSerializer, BinaryNbtTagSorter, TagPointer, UnsafeFastByteArrayIO, BinaryNbtTagSorterJmhBenchmark (+15 more)
+Cohesion: 0.05
+Nodes (3): McaTestCase, TerrainChunkBase, TerrainSectionBase
 
 ### Community 9 - "Community 9"
-Cohesion: 0.03
-Nodes (24): ChunkIterator, bestFor(), DataVersion(), find(), getBuildDescription(), hasEntitiesMca(), hasPoiMca(), isCrossedByTransition() (+16 more)
+Cohesion: 0.05
+Nodes (2): CompoundTag, CompoundTagIterator
 
 ### Community 10 - "Community 10"
-Cohesion: 0.04
-Nodes (73): $(), A(), Ae(), B(), Be(), c(), $e(), ee() (+65 more)
-
-### Community 11 - "Community 11"
-Cohesion: 0.05
-Nodes (4): PoiChunkBase, PoiChunkBaseTest, PoiRecord, PoiRecordTest
-
-### Community 12 - "Community 12"
 Cohesion: 0.06
 Nodes (6): BlockAlignedBoundingRectangle, BlockAlignedBoundingRectangleTest, ChunkBoundingRectangle, ChunkBoundingRectangleTest, RegionBoundingRectangle, RegionBoundingRectangleTest
 
+### Community 11 - "Community 11"
+Cohesion: 0.06
+Nodes (1): ListTag
+
+### Community 12 - "Community 12"
+Cohesion: 0.04
+Nodes (5): ChunkBase, MappedNamedTag, EntitiesChunkBase, NamedTag, NamedTagTest
+
 ### Community 13 - "Community 13"
-Cohesion: 0.07
-Nodes (6): BlockStateTag, BlockStateTagTest, IdentityHelper, NbtPathTest, ParseException, SilentParseException
+Cohesion: 0.05
+Nodes (9): BinaryNbtHelpers, BinaryNbtTagSorter, TagPointer, UnsafeFastByteArrayIO, BinaryNbtTagSorterJmhBenchmark, BinaryNbtTagSorterTest, TextNbtDeserializer, TextNbtHelpers (+1 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.06
-Nodes (9): MappedNamedTag, EntityFactory, EntityCreatorStub, EntityFactoryTest, EntityStub, NamedTagTest, UnexpectedExceptionThrownException, WrongExceptionMessageException (+1 more)
+Cohesion: 0.05
+Nodes (22): BinaryNbtDeserializer, BinaryNbtSerializer, compress(), decompress(), finish(), getFromID(), IOExceptionFunction, bestFor() (+14 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.12
-Nodes (3): StringPointer, StringPointerTest, TextNbtParser
-
-### Community 16 - "Community 16"
 Cohesion: 0.08
 Nodes (2): BigEndianNbtInputStream, LittleEndianNbtInputStream
 
+### Community 16 - "Community 16"
+Cohesion: 0.14
+Nodes (3): StringPointer, StringPointerTest, TextNbtParser
+
 ### Community 17 - "Community 17"
-Cohesion: 0.11
-Nodes (3): NameEvaluator, NbtPath, TerrainChunkTest
+Cohesion: 0.06
+Nodes (5): SectionBase, SectionedChunkBase, SectionIteratorImpl, TerrainChunk, TerrainSection
 
 ### Community 18 - "Community 18"
+Cohesion: 0.1
+Nodes (2): PoiRecord, PoiRecordTest
+
+### Community 19 - "Community 19"
 Cohesion: 0.12
 Nodes (2): JsonPrettyPrinter, JsonPrettyPrinterTest
 
-### Community 19 - "Community 19"
+### Community 20 - "Community 20"
 Cohesion: 0.09
 Nodes (3): ChunkMetaInfo, McaFileChunkIterator, PositionTrackingInputStream
 
-### Community 20 - "Community 20"
+### Community 21 - "Community 21"
+Cohesion: 0.13
+Nodes (2): NameEvaluator, NbtPath
+
+### Community 22 - "Community 22"
 Cohesion: 0.11
 Nodes (3): ArgValidator, LapToken, Stopwatch
 
-### Community 21 - "Community 21"
-Cohesion: 0.23
-Nodes (1): NamedTag
-
-### Community 22 - "Community 22"
-Cohesion: 0.22
-Nodes (4): AutoTypingDemoTest, Base, ImplA, ImplB
-
 ### Community 23 - "Community 23"
+Cohesion: 0.15
+Nodes (1): IntPointXYZ
+
+### Community 24 - "Community 24"
+Cohesion: 0.29
+Nodes (1): StringTag
+
+### Community 25 - "Community 25"
 Cohesion: 0.22
 Nodes (1): BlockStateIterator
 
-### Community 24 - "Community 24"
+### Community 26 - "Community 26"
 Cohesion: 0.48
 Nodes (1): Deserializer
-
-### Community 25 - "Community 25"
-Cohesion: 0.38
-Nodes (1): Serializer
-
-### Community 26 - "Community 26"
-Cohesion: 0.33
-Nodes (1): VersionLacksSupportException
 
 ### Community 27 - "Community 27"
 Cohesion: 0.29
 Nodes (1): EndTag
 
 ### Community 28 - "Community 28"
+Cohesion: 0.29
+Nodes (3): Base, ImplA, ImplB
+
+### Community 29 - "Community 29"
+Cohesion: 0.33
+Nodes (1): VersionLacksSupportException
+
+### Community 30 - "Community 30"
+Cohesion: 0.4
+Nodes (1): IndexEvaluator
+
+### Community 31 - "Community 31"
 Cohesion: 0.5
 Nodes (1): NbtInput
 
-### Community 29 - "Community 29"
+### Community 32 - "Community 32"
 Cohesion: 0.5
-Nodes (1): IllegalEntityTagException
+Nodes (1): ExceptionRunnable
 
-### Community 30 - "Community 30"
+### Community 33 - "Community 33"
 Cohesion: 0.5
 Nodes (1): TracksUnreadDataTags
 
-### Community 31 - "Community 31"
+### Community 34 - "Community 34"
 Cohesion: 0.67
 Nodes (1): ExceptionBiFunction
 
-### Community 32 - "Community 32"
+### Community 35 - "Community 35"
 Cohesion: 0.67
 Nodes (1): MaxDepthReachedException
 
-### Community 33 - "Community 33"
+### Community 36 - "Community 36"
 Cohesion: 0.67
 Nodes (1): SilentIOException
 
-### Community 34 - "Community 34"
-Cohesion: 0.67
-Nodes (1): UnsupportedVersionChangeException
-
-### Community 35 - "Community 35"
-Cohesion: 0.67
-Nodes (1): DefaultEntityCreator
-
-### Community 36 - "Community 36"
-Cohesion: 0.67
-Nodes (1): EntityCreator
-
 ### Community 37 - "Community 37"
-Cohesion: 0.67
-Nodes (1): CorruptMcaFileException
-
-### Community 38 - "Community 38"
-Cohesion: 0.67
-Nodes (1): MoveChunkFlags
-
-### Community 39 - "Community 39"
 Cohesion: 0.67
 Nodes (1): Evaluator
 
+### Community 38 - "Community 38"
+Cohesion: 0.67
+Nodes (1): UnsupportedVersionChangeException
+
+### Community 39 - "Community 39"
+Cohesion: 0.67
+Nodes (1): DefaultEntityCreator
+
 ### Community 40 - "Community 40"
 Cohesion: 0.67
-Nodes (1): ExceptionRunnable
+Nodes (1): EntityCreator
 
 ### Community 41 - "Community 41"
 Cohesion: 0.67
-Nodes (1): McaTerrainFileTest
+Nodes (1): CorruptMcaFileException
 
 ### Community 42 - "Community 42"
-Cohesion: 1.0
-Nodes (0): 
+Cohesion: 0.67
+Nodes (1): MoveChunkFlags
 
 ### Community 43 - "Community 43"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 44 - "Community 44"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 45 - "Community 45"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 46 - "Community 46"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 47 - "Community 47"
-Cohesion: 1.0
-Nodes (0): 
-
-## Knowledge Gaps
-- **Thin community `Community 42`** (1 nodes): `member-search-index.js`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 43`** (1 nodes): `module-search-index.js`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 44`** (1 nodes): `package-search-index.js`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 45`** (1 nodes): `tag-search-index.js`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 46`** (1 nodes): `type-search-index.js`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 47`** (1 nodes): `TerrainMCAFileBase.java`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+Cohesion: 0.67
+Nodes (1): McaTerrainFileTest
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Entity` connect `Community 2` to `Community 3`?**
-  _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Why does `EntityBase` connect `Community 2` to `Community 4`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
-- **Why does `TerrainChunkBase` connect `Community 6` to `Community 0`, `Community 4`, `Community 7`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `Entity` connect `Community 0` to `Community 5`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `EntityBase` connect `Community 0` to `Community 1`, `Community 2`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `TerrainChunkBase` connect `Community 8` to `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 12`?**
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.02 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.02 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.02 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.03 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
   _Cohesion score 0.02 - nodes in this community are weakly interconnected._
