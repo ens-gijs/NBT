@@ -1,3 +1,31 @@
+### Claude ###
+.claude/worktrees
+.claude/settings.local.json
+CLAUDE.local.md
+
+### Publishing secrets ###
+# Credentials for Sonatype Central Portal + GPG signing live in user-home
+# (~/.gradle/gradle.properties). If you do create a project-local copy, never
+# commit it. See gradle.properties.example for the keys we read.
+/gradle.properties
+secring.gpg
+*.asc
+
+### Graphify ###
+# keep graph outputs, skip heavy/local-only files
+# optional: commit for shared extraction speed, skip to keep repo small
+graphify-out/cache/
+# mtime-based, invalid after git clone — always gitignore this
+graphify-out/manifest.json
+# local token tracking, not useful to share
+graphify-out/cost.json
+# local working files
+.graphify_incremental.json
+.graphify_old.json
+.graphify_uncached.txt
+.graphify_python
+
+
 # gradle gitignore
 .gradle
 /build/
