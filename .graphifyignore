@@ -1,0 +1,12 @@
+# Tip: don't extract your own instructions as knowledge
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.gemini/
+.opencode/
+.claude/
+.gradle/
+.idea/
+gradle/
+build/
+doc/
