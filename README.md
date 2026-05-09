@@ -1,66 +1,94 @@
-# NBT
-<!-- [![Build Status](https://travis-ci.org/Querz/NBT.svg?branch=master)](https://travis-ci.org/Querz/NBT) [![Coverage Status](https://img.shields.io/coveralls/github/Querz/NBT/master.svg)](https://coveralls.io/github/Querz/NBT?branch=master) [![Release](https://jitpack.io/v/Querz/NBT.svg)](https://jitpack.io/#Querz/NBT) -->
-A java implementation of the [NBT protocol](https://minecraft.gamepedia.com/NBT_format) for Minecraft Java Edition.
+# nbt-mca
 
-**!!! THIS FORK IS UNDER HEAVY DEVELOPMENT - May 2024!!!**
+A rich Java library for working with [NBT](https://minecraft.gamepedia.com/NBT_format) data and Minecraft Java Edition `.mca` region files.
 
-But, it is ready for early adopters!
+> **Forked from [Querz/NBT](https://github.com/Querz/NBT).** This fork has diverged substantially — coordinates, package layout, and APIs have changed. It is not a drop-in replacement for the upstream artifact.
 
-This library includes a rich [NBT](https://minecraft.gamepedia.com/NBT_format) experience and powerful tools
-for working with .mca files. The NBT portion is largely stable while the mca library is still going through heavy
-iteration.
+## Coordinates
 
-#### Highlights of the NBT library
-* [NbtPath](src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) Allows you to easily get and put nested tags.
-* [TextNbtHelpers](src/main/java/io/github/ensgijs/nbt/io/TextNbtHelpers.java) Utilities for reading and writing text nbt data - with pretty printing! Yes, pretty printed text nbt data is also parseable.
-* [BinaryNbtHelpers](src/main/java/io/github/ensgijs/nbt/io/BinaryNbtHelpers.java) Utilities for working with binary nbt files, compressed or uncompressed.
+Released versions are published to **Maven Central**. Snapshots are published to **Central's snapshot repository** automatically when `master` is updated.
 
-#### Highlights of the MCA library
-* Version support from Minecraft Java 1.9.0 to 1.21.3 and beyond (no Bedrock support currently or planed at this time).
-  * [DataVersion](src/main/java/io/github/ensgijs/nbt/mca/DataVersion.java) nearly complete data version to minecraft version mapping and detection back to 1.9.0.
-* Rich javadocs on most classes and methods.
-* Excellent code coverage and extensive unit testing as well as integration testing for multiple Minecraft versions see [test resources](src/test/resources)
-  * _There's always room for improvement of the richness of integration data samples - some of the samples are a little less interesting than I would prefer._
-* Supports editing of non-vanilla world files without data loss.
-* Support for terrain (region), entities, and poi mca files - the various chunk class types are due for a heavy refactor, and I plan to add an abstraction layer to wrap all 3 mca/chunk types to provide a more seamless processing / editing experience.
-* Safely relocate (move) chunks - all chunk implementations fully support being moved to a new location. All contents are updated to exist in the new chunk location. This feature is the primary reason I dusted off this project after 3 years and is well tested and very ready for consumption.
-  * [RegionFileRelocator](src/main/java/io/github/ensgijs/nbt/mca/io/RegionFileRelocator.java) relocate entire region files.
-* Multiple options for reading and writing chunk data to .mca files using one of the following classes.
-  * [RandomAccessMcaFile](src/main/java/io/github/ensgijs/nbt/mca/io/RandomAccessMcaFile.java) read and write chunks with minimal memory overhead.
-  * [McaFileChunkIterator](src/main/java/io/github/ensgijs/nbt/mca/io/McaFileChunkIterator.java) iterate through the chunks in an mca file one after the other, again keeping memory overhead down.
-  * [McaFileStreamingWriter](src/main/java/io/github/ensgijs/nbt/mca/io/McaFileStreamingWriter.java) write an entire mca file one chunk at a time.
+### Gradle
 
-#### Powerful Utilities
-* [LongArrayTagPackedIntegers](src/main/java/io/github/ensgijs/nbt/mca/util/LongArrayTagPackedIntegers.java) a comprehensive solution to working with all long[] packed values (block palettes, biome palettes, Heightmaps) across all DataVersions.
-* [PalettizedCuboid](src/main/java/io/github/ensgijs/nbt/mca/util/PalettizedCuboid.java) powerful class for working with block and biome palettes. This class supports all MC versions that use data palettes; I may add block and biome child classes to improve usability in the future.
+```groovy
+repositories {
+    mavenCentral()
+    // Only needed if you want bleeding-edge SNAPSHOT builds:
+    maven { url = 'https://central.sonatype.com/repository/maven-snapshots/' }
+}
 
-#### How to get started with 0.1-SNAPSHOT
-This package is not yet published to a public repository - but using it from a local build is easy!
-
-Download the source, open the project in your IDE of choice (Intellij, etc), run the gradle rule
-`gradle publishToMavenLocal` to build the source and stash the 0.1-SNAPSHOT in your local maven cache.
-
-Gradle:
-```
 dependencies {
-	...
-	implementation 'io.github.ensgijs:ens-nbt:0.1-SNAPSHOT'
+    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.1.0-SNAPSHOT'
 }
 ```
 
-Maven:
-```
+### Maven
+
+```xml
 <dependency>
-    <groupId>io.github.ensgijs</groupId>
-    <artifactId>ens-nbt</artifactId>
-    <version>0.1-SNAPSHOT</version>
-    <scope>compile</scope>
+    <groupId>io.github.ens-gijs.nbt</groupId>
+    <artifactId>nbt-mca</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
+> **Heads-up — module split coming.** A future release will split this artifact into `nbt-core` (NBT tag types, I/O, `NbtPath`) and `nbt-mca` (everything Minecraft `.mca`-specific, depending on `nbt-core`). The split will be transparent: existing `nbt-mca` users keep working unchanged, and consumers who only need the NBT half can switch their dependency to `nbt-core`.
+
+### Migrating from the local-Maven `0.1-SNAPSHOT`
+
+If you were previously consuming this fork via `./gradlew publishToMavenLocal`:
+
+| Before                                       | After                                                  |
+| -------------------------------------------- | ------------------------------------------------------ |
+| `io.github.ensgijs:ens-nbt:0.1-SNAPSHOT`     | `io.github.ens-gijs.nbt:nbt-mca:0.1.0-SNAPSHOT`        |
+
+The Java package layout (`io.github.ensgijs.nbt.*`) is unchanged — no code changes required, just the dependency coordinate.
+
+## Highlights
+
+### NBT
+- [`NbtPath`](src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) — JSON-path-like accessor for nested tags.
+- [`TextNbtHelpers`](src/main/java/io/github/ensgijs/nbt/io/TextNbtHelpers.java) — read/write SNBT, with pretty-printing that round-trips through the parser.
+- [`BinaryNbtHelpers`](src/main/java/io/github/ensgijs/nbt/io/BinaryNbtHelpers.java) — binary NBT I/O (compressed or uncompressed, big- and little-endian).
+
+### MCA
+- Minecraft Java Edition support from MC 1.9.0 → 1.21.3+ (Bedrock not supported).
+  - [`DataVersion`](src/main/java/io/github/ensgijs/nbt/mca/DataVersion.java) provides near-complete data-version ↔ MC-version mapping back to 1.9.0. SNAPSHOT consumers get new `DataVersion` entries as soon as Mojang ships a snapshot.
+- Supports terrain (region), entities, and POI mca files.
+- Safely **relocate (move) chunks** to new coordinates — all internal coordinate references are rewritten. Well-tested; the reason this fork was revived. See [`RegionFileRelocator`](src/main/java/io/github/ensgijs/nbt/mca/io/RegionFileRelocator.java).
+- Multiple I/O strategies: pick by memory/access pattern.
+  - [`RandomAccessMcaFile`](src/main/java/io/github/ensgijs/nbt/mca/io/RandomAccessMcaFile.java) — low-overhead random access.
+  - [`McaFileChunkIterator`](src/main/java/io/github/ensgijs/nbt/mca/io/McaFileChunkIterator.java) — sequential read.
+  - [`McaFileStreamingWriter`](src/main/java/io/github/ensgijs/nbt/mca/io/McaFileStreamingWriter.java) — sequential write.
+  - [`McaFileHelpers`](src/main/java/io/github/ensgijs/nbt/mca/io/McaFileHelpers.java) — whole-file load/save.
+
+### Utilities
+- [`LongArrayTagPackedIntegers`](src/main/java/io/github/ensgijs/nbt/mca/util/LongArrayTagPackedIntegers.java) — comprehensive handler for MC's `long[]` packed values (block palettes, biome palettes, heightmaps) across all data versions.
+- [`PalettizedCuboid`](src/main/java/io/github/ensgijs/nbt/mca/util/PalettizedCuboid.java) — block- and biome-palette manipulation across every data-versioned palette format.
+
+## Building from source
+
+Java 17, Gradle wrapper, JUnit 4. On Windows use `gradlew.bat`; on POSIX use `./gradlew`.
+
+```sh
+./gradlew build                # compile + test
+./gradlew test                 # tests only
+./gradlew jacocoTestReport     # coverage report under build/reports/jacoco
+./gradlew javadoc              # javadocs under ./doc/
+./gradlew jmh                  # JMH benchmarks (sources in src/jmh/java)
+./gradlew publishToMavenLocal  # stash a build in your local ~/.m2 cache
+```
+
+## Project status
+
+The library is under active development. The NBT half is largely stable; the MCA half continues to iterate, with the chunk class hierarchy slated for a refactor as part of the upcoming module split. `DataVersion` and the palette utilities are load-bearing — treat existing patterns there as stable.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Portions derived from [Querz/NBT](https://github.com/Querz/NBT) (also MIT).
 
 ---
-### NBT Specification
+## NBT Specification
 According to the [specification](https://minecraft.gamepedia.com/NBT_format), there are currently 13 different types of tags:
 
 | Tag class    | Superclass | ID | Payload |
@@ -82,131 +110,3 @@ According to the [specification](https://minecraft.gamepedia.com/NBT_format), th
 * The `EndTag` is only used to mark the end of a `CompoundTag` in its serialized state or an empty `ListTag`.
 
 * The maximum depth of the NBT structure is 512. If the depth exceeds this restriction during serialization, deserialization or String conversion, a `MaxDepthReachedException` is thrown. This usually happens when a circular reference exists in the NBT structure. The NBT specification does not allow circular references, as there is no tag to represent this.
-
-<!--
-### Add the library as a dependency using Gradle:
-Add Jitpack to your `repositories`:
-```
-repositories {
-	...
-	maven { url 'https://jitpack.io/' }
-}
-```
-And then add it as a dependency as usual:
-```
-dependencies {
-	...
-	implementation 'com.github.ens-gijs:NBT:1.0'
-}
-```
-
-### Add the library as a dependency using Maven:
-Add Jitpack:
-```
-<repositories>
-	<repository>
-		<id>jitpack.io</id>
-		<url>https://jitpack.io</url>
-	</repository>
-</repositories>
-```
-Dependency:
-```
-<dependency>
-	<groupId>com.github.ens-gijs</groupId>
-	<artifactId>NBT</artifactId>
-	<version>1.0</version>
-</dependency>
-```
-
----
-### Example usage:
-The following code snippet shows how to create a `CompoundTag`:
-```java
-CompoundTag ct = new CompoundTag();
-
-ct.put("byte", new ByteTag((byte) 1));
-ct.put("double", new DoubleTag(1.234));
-ct.putString("string", "stringValue");
-```
-An example how to use a `ListTag`:
-```java
-ListTag<FloatTag> fl = new ListTag<>(FloatTag.class);
-
-fl.add(new FloatTag(1.234f);
-fl.addFloat(5.678f);
-```
-
-#### Nesting
-All methods serializing instances or deserializing data track the nesting levels to prevent circular references or malicious data which could, when deserialized, result in thousands of instances causing a denial of service.
-
-These methods have a parameter for the maximum nesting depth they are allowed to traverse. A value of `0` means that only the object itself, but no nested object may be processed.
-
-If an instance is nested further than allowed, a [MaxDepthReachedException](src/main/java/io/github/ensgijs/io/MaxDepthReachedException.java) will be thrown. A negative maximum depth will cause an `IllegalArgumentException`.
-
-Some methods do not provide a parameter to specify the maximum depth, but instead use `Tag.DEFAULT_MAX_DEPTH` (`512`) which is also the maximum used in Minecraft.
-
----
-### Utility
-There are several utility methods to make your life easier if you use this library.
-#### NBTUtil
-`NBTUtil.write()` lets you write a Tag into a gzip compressed or uncompressed file in one line (not counting exception handling). Files are gzip compressed by default.
-
-Example usage:
-```java
-NBTUtil.write(namedTag, "filename.dat");
-```
-`NBTUtil.read()` reads any file containing NBT data. No worry about compression, it will automatically uncompress gzip compressed files.
-
-Example usage:
-```java
-NamedTag namedTag = NBTUtil.read("filename.dat");
-```
-#### Playing Minecraft?
-Each tag can be converted into an NBT String (SNBT) used in Minecraft commands.
-
-Example usage:
-```java
-CompoundTag c = new CompoundTag();
-c.putByte("blah", (byte) 5);
-c.putString("foo", "bär");
-ListTag<StringTag> s = new ListTag<>(StringTag.class);
-s.addString("test");
-s.add(new StringTag("text"));
-c.add("list", s);
-System.out.println(SNBTUtil.toSNBT(c)); // {blah:5b,foo:"bär",list:[test,text]}
-
-```
-There is also a tool to read, change and write MCA files.
-
-Here are some examples:
-```java
-// This changes the InhabitedTime field of the chunk at x=68, z=81 to 0
-MCAFile mcaFile = MCAUtil.readMCAFile("r.2.2.mca");
-Chunk chunk = mcaFile.getChunk(68, 81);
-chunk.setInhabitedTime(0);
-MCAUtil.writeMCAFile("r.2.2.mca", mcaFile);
-```
-There is also an optimized api to retrieve and set block information (BlockStates) in MCA files.
-
-Example:
-```java
-// Retrieves block information from the MCA file
-CompoundTag blockState = mcaFile.getBlockStateAt(1090, 25, 1301);
-
-// Retrieves block information from a single chunk
-CompoundTag blockState = chunk.getBlockStateAt(2, 25, 5);
-
-// Set block information
-CompoundTag stone = new CompoundTag();
-stone.putString("Name", "minecraft:stone");
-mcaFile.setBlockStateAt(1090, 25, 1301, stone, false);
-```
-To ensure good performance even when setting a lot of blocks and / or editing sections with a huge palette of block states, the size of the BlockStates array is only updated when the size of the palette requires it. This means there might be blocks in the palette that are not actually used in the BlockStates array.
-You can trigger a cleanup process by calling one of the following three methods, depending on the desired depth:
-```java
-mcaFile.cleanupPalettesAndBlockStates();
-chunk.cleanupPalettesAndBlockStates();
-section.cleanupPaletteAndBlockStates();
-```
--->

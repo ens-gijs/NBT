@@ -1,6 +1,11 @@
 MIT License
 
+Copyright (c) 2024 - 2026 Ens Gijs (Ross)
 Copyright (c) 2016 - 2020 Querz
+
+Portions of this software are derived from the original NBT project by
+Querz (https://github.com/Querz/NBT). Substantial modifications and
+additions have been made by Ens Gijs (Ross) since 2024.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
