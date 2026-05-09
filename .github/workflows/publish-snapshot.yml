@@ -42,17 +42,32 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Verify version is a SNAPSHOT
-        # Belt-and-braces: refuse to push a non-SNAPSHOT through this workflow.
-        # A non-SNAPSHOT release should only come from the tag-driven publish.yml.
+      - name: Detect SNAPSHOT version
+        # The release commit drops `-SNAPSHOT` from the version, then the
+        # follow-up "resume development" commit puts it back. Both touch
+        # build.gradle so they trigger this workflow. Don't treat the
+        # release-commit run as an error — just skip the publish step
+        # cleanly. A non-SNAPSHOT release is published by publish.yml on
+        # the v* tag, not here.
+        id: detect
         run: |
           v=$(./gradlew -q properties | awk '/^version: / {print $2}')
           echo "Project version: $v"
+          if [ -z "$v" ]; then
+            echo "::error::Could not parse project version from gradle properties."
+            exit 1
+          fi
           case "$v" in
-            *-SNAPSHOT) ;;
-            *) echo "::error::Refusing to snapshot-publish non-SNAPSHOT version '$v'."; exit 1 ;;
+            *-SNAPSHOT)
+              echo "is_snapshot=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
+              echo "::notice::Skipping snapshot publish — current version '$v' is not a -SNAPSHOT. Tagged releases are published by publish.yml."
+              ;;
           esac
       - name: Publish SNAPSHOT to Maven Central
+        if: steps.detect.outputs.is_snapshot == 'true'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
