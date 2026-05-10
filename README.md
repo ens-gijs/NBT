@@ -22,7 +22,55 @@ snapshots.
 Each module is **versioned independently**. Releases are cut as `core-vX.Y.Z`
 and `mca-vX.Y.Z` git tags.
 
-## nbt-core
+## nbt-mca — Library for reading and manipulating world region files.
+
+Minecraft Java Edition `.mca` region/entities/POI file library, supporting MC
+v1.9.0 → v26.1+ (Bedrock not supported). Depends on `nbt-core` via Gradle
+`api`, so consumers of `nbt-mca` get NBT tag types transitively without an
+explicit `nbt-core` dependency.
+
+*At this point, this layer is mostly inspired by [Querz/NBT](https://github.com/Querz/NBT)'s (v6.1) implementation.*
+
+### Coordinates
+
+```groovy
+repositories {
+    mavenCentral()
+    // Only needed if you want bleeding-edge SNAPSHOT builds:
+    maven { url = 'https://central.sonatype.com/repository/maven-snapshots/' }
+}
+
+dependencies {
+    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT'
+}
+```
+
+```xml
+<dependency>
+    <groupId>io.github.ens-gijs.nbt</groupId>
+    <artifactId>nbt-mca</artifactId>
+    <version>0.2.0-SNAPSHOT</version>
+</dependency>
+```
+
+### Highlights
+
+- Supports Minecraft Java terrain (region), entities, and POI `.mca` files from MC v1.9.0 to v26.1 and beyond.
+- [`RegionFileRelocator`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/RegionFileRelocator.java) — safely **relocate (move) chunks** to new coordinates — all internal coordinate references are rewritten. Well-tested; this **is** the reason this fork was revived.
+- [`DataVersion`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/DataVersion.java) — near-complete data-version ↔ MC-version mapping back to 1.9.0. SNAPSHOT consumers get new `DataVersion` entries shortly after Mojang ships a snapshot.
+- [`VersionAware<T>`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/util/VersionAware.java) — simple utility class for managing data version support, an alternative to using massive `if.. else if .. else` blocks checking data versions.
+- Multiple I/O strategies — pick by memory/access pattern:
+    - [`RandomAccessMcaFile`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/RandomAccessMcaFile.java) — low-overhead random access.
+    - [`McaFileChunkIterator`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileChunkIterator.java) — sequential read.
+    - [`McaFileStreamingWriter`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileStreamingWriter.java) — sequential write.
+    - [`McaFileHelpers`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileHelpers.java) — whole-file load/save.
+- Powerful palette utilities for working with chunk and biome data:
+    - [`LongArrayTagPackedIntegers`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/util/LongArrayTagPackedIntegers.java) — comprehensive handler for MC's `long[]` packed values (block palettes, biome palettes, heightmaps) across all data versions.
+    - [`PalettizedCuboid`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/util/PalettizedCuboid.java) — block- and biome-palette manipulation across every data-versioned palette format.
+
+See the [nbt-mca CHANGELOG](nbt-mca/CHANGELOG.md) for release history.
+
+## nbt-core — Library for working with NBT tags.
 
 NBT tag types (`io.github.ensgijs.nbt.tag`), binary and text I/O
 (`io.github.ensgijs.nbt.io`), JSON-path-like `NbtPath` query
@@ -30,12 +78,16 @@ NBT tag types (`io.github.ensgijs.nbt.tag`), binary and text I/O
 (`io.github.ensgijs.nbt.util`) with the binary tag sorter and JSON
 pretty-printer.
 
-*This layer is still heavily based on [Querz/NBT](https://github.com/Querz/NBT)'s implementation (v6.1),
-but it also has been modified considerably, things have moved, things have been renamed. If you're already using
+Supports both Minecraft Java and Bedrock.
+
+*The heart of this layer is still heavily based on [Querz/NBT](https://github.com/Querz/NBT)'s implementation (v6.1).
+However, it also has been modified considerably. Things have moved. Things have been renamed. If you're already using
 Querz/NBT you can expect migrating to this impl to be of low to moderate effort. The libraries will not
-conflict on the classpath or in any way and can be used at the same time. There is no need to migrate
-if you don't want to. Note that the package names have changed, you'll need to fix all imports. Tip:
-use nbt serialization to convert between any two NBT libraries (old.nbt.Tag -> bytes -> other.nbt.Tag).*
+conflict on the classpath or in any way and can be used at the same time. **There is no need to migrate
+if you don't want to.** Note that the package names have changed, you'll need to fix all imports.*
+
+> [!TIP]
+> Use nbt serialization to pass data between any two NBT libraries (`old.nbt.Tag` → `byte[]` → `other.nbt.Tag`).
 
 ### Coordinates
 
@@ -61,54 +113,12 @@ dependencies {
 
 ### Highlights
 
-- [`NbtPath`](nbt-core/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) — JSON-path-like accessor for nested tags.
+- [`NbtPath`](nbt-core/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) — JSON-path-like accessor for nested tags. Provides a simple mechanism to retrieve, and store, structured data using simple path expressions without having to handle the intermediate tags yourself. Ex: `int homeY = NbtPath.of("Brain.memories.minecraft:home.value.pos[1]").getInt(tag)`
 - [`BinaryNbtTagSorter`](nbt-core/src/main/java/io/github/ensgijs/nbt/util/BinaryNbtTagSorter.java) — performance optimized binary data sorter. Skips parsing bytes into tags. *Sorted data is valuable for its ability to be deterministically fingerprinted & hashcoded and enables direct equality comparison of nbt byte[]'s.* 
 - [`TextNbtHelpers`](nbt-core/src/main/java/io/github/ensgijs/nbt/io/TextNbtHelpers.java) — read/write SNBT, with real pretty-printing output that can then be passed back into the snbt parser as valid input.
 - [`BinaryNbtHelpers`](nbt-core/src/main/java/io/github/ensgijs/nbt/io/BinaryNbtHelpers.java) — binary NBT I/O (compressed or uncompressed, big- and little-endian).
 
 See the [nbt-core CHANGELOG](nbt-core/CHANGELOG.md) for release history.
-
-## nbt-mca
-
-Minecraft Java Edition `.mca` region/entities/POI file library, supporting MC
-1.9.0 → 1.21.3+ (Bedrock not supported). Depends on `nbt-core` via Gradle
-`api`, so consumers of `nbt-mca` get NBT tag types transitively without an
-explicit `nbt-core` dependency.
-
-*At this point, this layer is mostly inspired by [Querz/NBT](https://github.com/Querz/NBT)'s implementation
-and is due for a heavy refactor - if I ever get around to it...*
-
-### Coordinates
-
-```groovy
-dependencies {
-    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT'
-}
-```
-
-```xml
-<dependency>
-    <groupId>io.github.ens-gijs.nbt</groupId>
-    <artifactId>nbt-mca</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
-</dependency>
-```
-
-### Highlights
-
-- [`DataVersion`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/DataVersion.java) — near-complete data-version ↔ MC-version mapping back to 1.9.0. SNAPSHOT consumers get new `DataVersion` entries shortly after Mojang ships a snapshot.
-- Supports terrain (region), entities, and POI mca files.
-- Safely **relocate (move) chunks** to new coordinates — all internal coordinate references are rewritten. Well-tested; this **is** the reason this fork was revived. See [`RegionFileRelocator`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/RegionFileRelocator.java).
-- Multiple I/O strategies — pick by memory/access pattern:
-  - [`RandomAccessMcaFile`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/RandomAccessMcaFile.java) — low-overhead random access.
-  - [`McaFileChunkIterator`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileChunkIterator.java) — sequential read.
-  - [`McaFileStreamingWriter`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileStreamingWriter.java) — sequential write.
-  - [`McaFileHelpers`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/io/McaFileHelpers.java) — whole-file load/save.
-- Powerful palette utilities for working with chunk and biome data:
-  - [`LongArrayTagPackedIntegers`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/util/LongArrayTagPackedIntegers.java) — comprehensive handler for MC's `long[]` packed values (block palettes, biome palettes, heightmaps) across all data versions.
-  - [`PalettizedCuboid`](nbt-mca/src/main/java/io/github/ensgijs/nbt/mca/util/PalettizedCuboid.java) — block- and biome-palette manipulation across every data-versioned palette format.
-
-See the [nbt-mca CHANGELOG](nbt-mca/CHANGELOG.md) for release history.
 
 ## Migrating
 
