@@ -14,25 +14,25 @@ Releases are cut as `mca-vX.Y.Z` git tags handled by
 
 Module split: the NBT-format classes that previously shipped inside
 `nbt-mca:0.1.0` (`io.github.ensgijs.nbt.{tag,io,query,util}`) have been
-moved into their own artifact, `io.github.ens-gijs.nbt:nbt-core`.
+moved into their own artifact, `io.github.ens-gijs.nbt:nbt`.
 
 ### Changed
-- **Now depends on `io.github.ens-gijs.nbt:nbt-core`** via Gradle `api` /
+- **Now depends on `io.github.ens-gijs.nbt:nbt`** via Gradle `api` /
   Maven `<scope>compile</scope>`. Consumers of `nbt-mca` keep getting NBT
   tag types transitively — no source-code changes are required to upgrade
   from 0.1.0; only the build-file dependency line changes.
 - Java package layout for `io.github.ensgijs.nbt.mca.*` is unchanged from
-  0.1.0. The classes that moved to `nbt-core` also kept their packages.
-- Versioned independently from `nbt-core`. Future Minecraft data-version
+  0.1.0. The classes that moved to `nbt` also kept their packages.
+- Versioned independently from `nbt`. Future Minecraft data-version
   additions will ship under `nbt-mca` minor/patch bumps without dragging
-  `nbt-core`'s version forward.
+  `nbt`'s version forward.
 
 ### Migrating from 0.1.0
 - Gradle: no change required. Your existing
   `implementation 'io.github.ens-gijs.nbt:nbt-mca:<version>'` keeps working;
-  the NBT classes now arrive transitively via `nbt-core`.
+  the NBT classes now arrive transitively via `nbt`.
 - If you want to depend only on the NBT tag types and not the MCA machinery,
-  switch your dependency to `io.github.ens-gijs.nbt:nbt-core` instead.
+  switch your dependency to `io.github.ens-gijs.nbt:nbt` instead.
 
 ## [0.1.0] - 2026-05-09
 

@@ -1,13 +1,14 @@
 /*
  * Multi-module build:
  *
- *   :nbt-core  — NBT tag types, binary/text I/O, NbtPath query, generic util.
- *                Versioned independently as `coreVersion` in gradle.properties.
+ *   :nbt      — NBT tag types, binary/text I/O, NbtPath query, generic util.
+ *               Versioned independently as `nbtVersion` in gradle.properties.
  *
- *   :nbt-mca   — Minecraft Java Edition .mca region/entities/POI file support.
- *                Depends (via `api`) on :nbt-core. Versioned independently as
- *                `mcaVersion` in gradle.properties.
+ *   :nbt-mca  — Minecraft Java Edition .mca region/entities/POI file support.
+ *               Depends (via `api`) on :nbt. Versioned independently as
+ *               `mcaVersion` in gradle.properties.
  */
 
-rootProject.name = 'nbt'
-include 'nbt-core', 'nbt-mca'
+// Root project is named distinctly from any subproject — Gradle requires it.
+rootProject.name = 'ens-nbt'
+include 'nbt', 'nbt-mca'

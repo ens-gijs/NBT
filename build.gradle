@@ -1,6 +1,6 @@
 // Root project — no source of its own. All shared subproject config lives here;
 // per-module specifics (coordinates, deps, POM description) live in
-// nbt-core/build.gradle and nbt-mca/build.gradle.
+// nbt/build.gradle and nbt-mca/build.gradle.
 //
 // Plugins are declared with `apply false` at the root and `apply` is invoked
 // inside `subprojects { ... }` so each subproject gets its own configured copy.
@@ -10,7 +10,7 @@ plugins {
     // https://github.com/melix/japicmp-gradle-plugin — binary-compatibility check
     // against the previously published artifact. Currently advisory-only at 0.x.
     id 'me.champeau.gradle.japicmp' version '0.4.6' apply false
-    // JMH benchmarks (currently only used by :nbt-core).
+    // JMH benchmarks (currently only used by :nbt).
     id 'me.champeau.jmh' version '0.7.3' apply false
 }
 

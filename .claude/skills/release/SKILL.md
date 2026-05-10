@@ -1,22 +1,22 @@
 ---
 name: release
 description: |
-  Cut a Maven Central release of either nbt-core or nbt-mca. Use when the user
-  says "release nbt-core vX.Y.Z", "release nbt-mca vX.Y.Z", "publish to Maven
+  Cut a Maven Central release of either nbt or nbt-mca. Use when the user
+  says "release nbt vX.Y.Z", "release nbt-mca vX.Y.Z", "publish to Maven
   Central", or anything that means promoting a -SNAPSHOT to a tagged version.
   Walks the full sequence with safety checks before each irreversible step. Do
   NOT run autonomously — pause for explicit user confirmation before tagging or
   pushing.
 ---
 
-# Release skill — nbt-core / nbt-mca
+# Release skill — nbt / nbt-mca
 
-This codifies the per-module release sequence. Each module (`nbt-core`,
-`nbt-mca`) is released independently — they have separate versions in
+This codifies the per-module release sequence. Each module (`nbt`, `nbt-mca`)
+is released independently — they have separate versions in
 `gradle.properties`, separate CHANGELOGs, separate git tag prefixes, and
 separate publish workflows.
 
-The publish itself is performed by `.github/workflows/publish-core.yml` /
+The publish itself is performed by `.github/workflows/publish-nbt.yml` /
 `publish-mca.yml` when the matching tag is pushed; this skill prepares
 and pushes that tag.
 
@@ -26,17 +26,17 @@ skill is only for cutting tagged stable releases.
 
 ## Module selection
 
-**Ask the user up front which module is being released.** Either `nbt-core`
-or `nbt-mca`. Then bind the per-module variables for the rest of the flow:
+**Ask the user up front which module is being released.** Either `nbt` or
+`nbt-mca`. Then bind the per-module variables for the rest of the flow:
 
-| Variable             | If `nbt-core`                          | If `nbt-mca`                          |
-| -------------------- | -------------------------------------- | ------------------------------------- |
-| `<MODULE>`           | `nbt-core`                             | `nbt-mca`                             |
-| `<VERSION_KEY>`      | `coreVersion`                          | `mcaVersion`                          |
-| `<TAG_PREFIX>`       | `core-v`                               | `mca-v`                               |
-| `<CHANGELOG>`        | `nbt-core/CHANGELOG.md`                | `nbt-mca/CHANGELOG.md`                |
-| `<PUBLISH_WORKFLOW>` | `publish-core.yml`                     | `publish-mca.yml`                     |
-| `<M2_PATH>`          | `~/.m2/repository/io/github/ens-gijs/nbt/nbt-core/` | `~/.m2/repository/io/github/ens-gijs/nbt/nbt-mca/` |
+| Variable             | If `nbt`                                       | If `nbt-mca`                                       |
+| -------------------- | ---------------------------------------------- | -------------------------------------------------- |
+| `<MODULE>`           | `nbt`                                          | `nbt-mca`                                          |
+| `<VERSION_KEY>`      | `nbtVersion`                                   | `mcaVersion`                                       |
+| `<TAG_PREFIX>`       | `nbt-v`                                        | `mca-v`                                            |
+| `<CHANGELOG>`        | `nbt/CHANGELOG.md`                             | `nbt-mca/CHANGELOG.md`                             |
+| `<PUBLISH_WORKFLOW>` | `publish-nbt.yml`                              | `publish-mca.yml`                                  |
+| `<M2_PATH>`          | `~/.m2/repository/io/github/ens-gijs/nbt/nbt/` | `~/.m2/repository/io/github/ens-gijs/nbt/nbt-mca/` |
 
 ## Inputs
 
@@ -63,9 +63,9 @@ Report each check's result before proceeding.
    `./gradlew :<MODULE>:publishToMavenLocal` and grep `<M2_PATH>` POMs for
    `-SNAPSHOT`. The only acceptable match is the project's own version
    (which is about to be released, so will lose `-SNAPSHOT` in the next
-   step). If `nbt-mca` is being released, its dep on `nbt-core` must point
-   at a non-SNAPSHOT version on Central — if `nbt-core` is currently
-   `-SNAPSHOT`, release `nbt-core` first.
+   step). If `nbt-mca` is being released, its dep on `nbt` must point at
+   a non-SNAPSHOT version on Central — if `nbt` is currently `-SNAPSHOT`,
+   release `nbt` first.
 6. **Tag doesn't already exist.** `git rev-parse <TAG_PREFIX><VERSION>` should fail.
 7. **Tests pass.** `./gradlew clean build`.
 8. **japicmp baseline check** (only if a previous release of `<MODULE>` exists):
@@ -131,6 +131,6 @@ Each step is a separate commit so the release can be reverted cleanly if needed.
   then proceed with everything else.
 - Do not generate or modify GPG keys, Sonatype tokens, or
   `~/.gradle/gradle.properties`. Those are user-managed.
-- Do not release `nbt-mca` against a `-SNAPSHOT` `nbt-core` dependency.
-  If `nbt-mca` is being released and its current `nbt-core` dep is
-  `-SNAPSHOT`, halt and tell the user to release `nbt-core` first.
+- Do not release `nbt-mca` against a `-SNAPSHOT` `nbt` dependency.
+  If `nbt-mca` is being released and its current `nbt` dep is
+  `-SNAPSHOT`, halt and tell the user to release `nbt` first.

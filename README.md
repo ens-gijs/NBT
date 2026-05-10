@@ -11,8 +11,8 @@ data and `.mca` region files (mca support is for MC Java only).
 
 | Module                                              | What it gives you                                                                                                                                                              | Depend on this if…                                                        |
 | --------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [**`nbt-core`**](nbt-core/) `0.1.1-SNAPSHOT`        | NBT library with binary & SNBT (text) I/O, [`NbtPath`](nbt-core/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java), pretty printing, and more.                            | You want NBT data processing only.                                        |
-| [**`nbt-mca`**](nbt-mca/) `0.2.0-SNAPSHOT`          | Minecraft Java Edition `.mca` region/entities/POI file support, chunk relocation, palette utilities. Depends on `nbt-core` via Gradle `api` so you get NBT types transitively. | You're working with `.mca` region files. *You're probably here for this.* |
+| [**`nbt`**](nbt/) `0.1.1-SNAPSHOT`        | NBT library with binary & SNBT (text) I/O, [`NbtPath`](nbt/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java), pretty printing, and more.                            | You want NBT data processing only.                                        |
+| [**`nbt-mca`**](nbt-mca/) `0.2.0-SNAPSHOT`          | Minecraft Java Edition `.mca` region/entities/POI file support, chunk relocation, palette utilities. Depends on `nbt` via Gradle `api` so you get NBT types transitively. | You're working with `.mca` region files. *You're probably here for this.* |
 
 Both are published to **Maven Central**. `-SNAPSHOT` builds are pushed to
 **Central's snapshot repository** automatically when `master` is updated —
@@ -25,9 +25,9 @@ and `mca-vX.Y.Z` git tags.
 ## nbt-mca — Library for reading and manipulating world region files.
 
 Minecraft Java Edition `.mca` region/entities/POI file library, supporting MC
-v1.9.0 → v26.1+ (Bedrock not supported). Depends on `nbt-core` via Gradle
+v1.9.0 → v26.1+ (Bedrock not supported). Depends on `nbt` via Gradle
 `api`, so consumers of `nbt-mca` get NBT tag types transitively without an
-explicit `nbt-core` dependency.
+explicit `nbt` dependency.
 
 *At this point, this layer is mostly inspired by [Querz/NBT](https://github.com/Querz/NBT)'s (v6.1) implementation.*
 
@@ -70,7 +70,7 @@ dependencies {
 
 See the [nbt-mca CHANGELOG](nbt-mca/CHANGELOG.md) for release history.
 
-## nbt-core — Library for working with NBT tags.
+## nbt — Library for working with NBT tags.
 
 NBT tag types (`io.github.ensgijs.nbt.tag`), binary and text I/O
 (`io.github.ensgijs.nbt.io`), JSON-path-like `NbtPath` query
@@ -99,38 +99,38 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.ens-gijs.nbt:nbt-core:0.1.1-SNAPSHOT'
+    implementation 'io.github.ens-gijs.nbt:nbt:0.1.1-SNAPSHOT'
 }
 ```
 
 ```xml
 <dependency>
     <groupId>io.github.ens-gijs.nbt</groupId>
-    <artifactId>nbt-core</artifactId>
+    <artifactId>nbt</artifactId>
     <version>0.1.1-SNAPSHOT</version>
 </dependency>
 ```
 
 ### Highlights
 
-- [`NbtPath`](nbt-core/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) — JSON-path-like accessor for nested tags. Provides a simple mechanism to retrieve, and store, structured data using simple path expressions without having to handle the intermediate tags yourself. Ex: `int homeY = NbtPath.of("Brain.memories.minecraft:home.value.pos[1]").getInt(tag)`
-- [`BinaryNbtTagSorter`](nbt-core/src/main/java/io/github/ensgijs/nbt/util/BinaryNbtTagSorter.java) — performance optimized binary data sorter. Skips parsing bytes into tags. *Sorted data is valuable for its ability to be deterministically fingerprinted & hashcoded and enables direct equality comparison of nbt byte[]'s.* 
-- [`TextNbtHelpers`](nbt-core/src/main/java/io/github/ensgijs/nbt/io/TextNbtHelpers.java) — read/write SNBT, with real pretty-printing output that can then be passed back into the snbt parser as valid input.
-- [`BinaryNbtHelpers`](nbt-core/src/main/java/io/github/ensgijs/nbt/io/BinaryNbtHelpers.java) — binary NBT I/O (compressed or uncompressed, big- and little-endian).
+- [`NbtPath`](nbt/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java) — JSON-path-like accessor for nested tags. Provides a simple mechanism to retrieve, and store, structured data using simple path expressions without having to handle the intermediate tags yourself. Ex: `int homeY = NbtPath.of("Brain.memories.minecraft:home.value.pos[1]").getInt(tag)`
+- [`BinaryNbtTagSorter`](nbt/src/main/java/io/github/ensgijs/nbt/util/BinaryNbtTagSorter.java) — performance optimized binary data sorter. Skips parsing bytes into tags. *Sorted data is valuable for its ability to be deterministically fingerprinted & hashcoded and enables direct equality comparison of nbt byte[]'s.* 
+- [`TextNbtHelpers`](nbt/src/main/java/io/github/ensgijs/nbt/io/TextNbtHelpers.java) — read/write SNBT, with real pretty-printing output that can then be passed back into the snbt parser as valid input.
+- [`BinaryNbtHelpers`](nbt/src/main/java/io/github/ensgijs/nbt/io/BinaryNbtHelpers.java) — binary NBT I/O (compressed or uncompressed, big- and little-endian).
 
-See the [nbt-core CHANGELOG](nbt-core/CHANGELOG.md) for release history.
+See the [nbt CHANGELOG](nbt/CHANGELOG.md) for release history.
 
 ## Migrating
 
 ### From `io.github.ens-gijs.nbt:nbt-mca:0.1.0` → `0.2.0` (the module split)
 
 No source-code changes required. The Java packages
-(`io.github.ensgijs.nbt.{tag,io,query,util}`) that moved to `nbt-core` kept
+(`io.github.ensgijs.nbt.{tag,io,query,util}`) that moved to `nbt` kept
 their package names, and `nbt-mca` declares an `api` dependency on
-`nbt-core`, so they arrive transitively. Just bump your dependency version.
+`nbt`, so they arrive transitively. Just bump your dependency version.
 
 If you want to depend only on the NBT half (without `.mca` machinery), switch
-your dependency to `nbt-core` instead.
+your dependency to `nbt` instead.
 
 ### From the old local-Maven `0.1-SNAPSHOT`
 
@@ -148,16 +148,16 @@ Java 17, Gradle wrapper, JUnit 4. On Windows use `gradlew.bat`; on POSIX use `./
 
 ```sh
 ./gradlew build                          # compile + test both modules
-./gradlew :nbt-core:test                 # tests for one module
-./gradlew :nbt-core:jacocoTestReport     # coverage report for one module
-./gradlew javadoc                        # javadocs under ./doc/{nbt-core,nbt-mca}
-./gradlew :nbt-core:jmh                  # JMH benchmarks (NBT-only)
+./gradlew :nbt:test                 # tests for one module
+./gradlew :nbt:jacocoTestReport     # coverage report for one module
+./gradlew javadoc                        # javadocs under ./doc/{nbt,nbt-mca}
+./gradlew :nbt:jmh                  # JMH benchmarks (NBT-only)
 ./gradlew publishToMavenLocal            # stash both modules in your local ~/.m2 cache
 ```
 
 ## Project status
 
-The library is under active development. The NBT half (`nbt-core`) is largely
+The library is under active development. The NBT half (`nbt`) is largely
 stable; the MCA half (`nbt-mca`) continues to iterate. `DataVersion` and the
 palette utilities are load-bearing — treat existing patterns there as stable.
 

@@ -5,15 +5,15 @@ version = providers.gradleProperty('mcaVersion').get()
 
 dependencies {
     // `api` so consumers of nbt-mca can use NBT tag types directly without
-    // adding an explicit nbt-core dependency. The nbt-mca public surface
+    // adding an explicit nbt dependency. The nbt-mca public surface
     // (e.g. Chunk.getCompoundTag()) returns NBT types, so this is the
     // right level of exposure.
-    api project(':nbt-core')
+    api project(':nbt')
 }
 
 // Shared test infra (NbtTestCase, ExceptionRunnable, ExceptionSupplier) and
 // dual-use NBT-format test resources (text_nbt_samples, invalid_*.dat) are
-// duplicated from :nbt-core's test sources rather than shared via Gradle's
+// duplicated from :nbt's test sources rather than shared via Gradle's
 // java-test-fixtures plugin — that plugin conflicts with me.champeau.jmh
 // inside the same composite build (capability-model collision). The files
 // are tiny; duplication is the pragmatic choice.

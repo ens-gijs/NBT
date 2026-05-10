@@ -1,14 +1,14 @@
-name: publish-core
+name: publish-nbt
 
-# Publishes :nbt-core to the Sonatype Central Portal whenever a `core-vX.Y.Z`
+# Publishes :nbt to the Sonatype Central Portal whenever a `nbt-vX.Y.Z`
 # tag is pushed. The complementary `mca-v*` tag is handled by publish-mca.yml.
-# Each module is released independently — see CHANGELOG-core.md / CHANGELOG-mca.md.
+# Each module is released independently — see nbt/CHANGELOG.md / nbt-mca/CHANGELOG.md.
 #
 # Requires the same secrets as publish-snapshot.yml.
 
 on:
   push:
-    tags: ['core-v*']
+    tags: ['nbt-v*']
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Publish nbt-core to Maven Central
+      - name: Publish nbt to Maven Central
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
@@ -33,4 +33,4 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyPassword: ${{ secrets.SIGNING_IN_MEMORY_KEY_PASSWORD }}
         # publishAndReleaseToMavenCentral uploads the bundle and auto-promotes it
         # (no manual click in the Central Portal UI needed).
-        run: ./gradlew :nbt-core:publishAndReleaseToMavenCentral --no-configuration-cache --stacktrace
+        run: ./gradlew :nbt:publishAndReleaseToMavenCentral --no-configuration-cache --stacktrace

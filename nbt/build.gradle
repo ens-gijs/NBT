@@ -1,16 +1,16 @@
-// :nbt-core — NBT tag types, binary/text I/O, NbtPath query, generic util.
-// No project dependencies. Versioned independently via `coreVersion` in
-// gradle.properties. Released as `core-vX.Y.Z` tags.
+// :nbt — NBT tag types, binary/text I/O, NbtPath query, generic util.
+// No project dependencies. Versioned independently via `nbtVersion` in
+// gradle.properties. Released as `nbt-vX.Y.Z` tags.
 apply plugin: 'me.champeau.jmh'
 
-version = providers.gradleProperty('coreVersion').get()
+version = providers.gradleProperty('nbtVersion').get()
 
 javadoc {
-    destinationDir = file("$rootDir/doc/nbt-core")
-    options.windowTitle 'nbt-core (ENS)'
+    destinationDir = file("$rootDir/doc/nbt")
+    options.windowTitle 'nbt (ENS)'
 }
 
-// JMH benchmarks currently only exercise nbt-core code.
+// JMH benchmarks currently only exercise nbt code.
 jmh {
     includes = [".*"]
     warmupIterations = 5
@@ -24,11 +24,11 @@ mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates(project.group.toString(), 'nbt-core', project.version.toString())
+    coordinates(project.group.toString(), 'nbt', project.version.toString())
 
     pom {
-        name = 'nbt-core'
-        description = 'NBT tag types, binary/text I/O, and NbtPath query for Minecraft Java Edition NBT data (forked from Querz/NBT).'
+        name = 'nbt'
+        description = 'NBT tag types, binary/text I/O, and NbtPath query for Minecraft NBT data (forked from Querz/NBT).'
         url = 'https://github.com/ens-gijs/NBT'
         inceptionYear = '2024'
 

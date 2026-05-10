@@ -28,7 +28,7 @@ graphify-out/cost.json
 # gradle gitignore
 .gradle
 /build/
-# subproject build dirs (nbt-core/build, nbt-mca/build, …)
+# subproject build dirs (nbt/build, nbt-mca/build, …)
 **/build/
 
 # Ignore Gradle GUI config

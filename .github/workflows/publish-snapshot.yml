@@ -1,6 +1,6 @@
 name: publish-snapshot
 
-# Publishes -SNAPSHOT builds of BOTH modules (nbt-core, nbt-mca) to the
+# Publishes -SNAPSHOT builds of BOTH modules (nbt, nbt-mca) to the
 # Sonatype Central snapshot repo on every push to master that touches build
 # inputs. The Central snapshot repo is mutable, so re-uploading an unchanged
 # module is a cheap no-op for consumers — keeping this simple ("publish all,
@@ -22,9 +22,9 @@ on:
   push:
     branches: [master]
     paths:
-      - 'nbt-core/src/main/**'
+      - 'nbt/src/main/**'
       - 'nbt-mca/src/main/**'
-      - 'nbt-core/build.gradle'
+      - 'nbt/build.gradle'
       - 'nbt-mca/build.gradle'
       - 'build.gradle'
       - 'settings.gradle'
@@ -55,25 +55,25 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Detect per-module SNAPSHOT versions
-        # Each module is versioned independently (gradle.properties: coreVersion,
+        # Each module is versioned independently (gradle.properties: nbtVersion,
         # mcaVersion). A release commit drops -SNAPSHOT for one module while the
         # other stays on -SNAPSHOT. Skip the publish step for any non-SNAPSHOT
         # module instead of failing the whole workflow — a tagged release is
         # what publishes a non-SNAPSHOT version, never this workflow.
         id: detect
         run: |
-          coreV=$(./gradlew -q :nbt-core:properties | awk '/^version: / {print $2}')
-          mcaV=$(./gradlew  -q :nbt-mca:properties  | awk '/^version: / {print $2}')
-          echo "nbt-core version: $coreV"
-          echo "nbt-mca  version: $mcaV"
-          if [ -z "$coreV" ] || [ -z "$mcaV" ]; then
+          nbtV=$(./gradlew -q :nbt:properties     | awk '/^version: / {print $2}')
+          mcaV=$(./gradlew -q :nbt-mca:properties | awk '/^version: / {print $2}')
+          echo "nbt     version: $nbtV"
+          echo "nbt-mca version: $mcaV"
+          if [ -z "$nbtV" ] || [ -z "$mcaV" ]; then
             echo "::error::Could not parse project versions from gradle properties."
             exit 1
           fi
-          case "$coreV" in
-            *-SNAPSHOT) echo "core_is_snapshot=true"  >> "$GITHUB_OUTPUT" ;;
-            *) echo "core_is_snapshot=false" >> "$GITHUB_OUTPUT"
-               echo "::notice::Skipping nbt-core snapshot publish — version '$coreV' is not a -SNAPSHOT." ;;
+          case "$nbtV" in
+            *-SNAPSHOT) echo "nbt_is_snapshot=true"  >> "$GITHUB_OUTPUT" ;;
+            *) echo "nbt_is_snapshot=false" >> "$GITHUB_OUTPUT"
+               echo "::notice::Skipping nbt snapshot publish — version '$nbtV' is not a -SNAPSHOT." ;;
           esac
           case "$mcaV" in
             *-SNAPSHOT) echo "mca_is_snapshot=true"  >> "$GITHUB_OUTPUT" ;;
@@ -81,8 +81,8 @@ jobs:
                echo "::notice::Skipping nbt-mca snapshot publish — version '$mcaV' is not a -SNAPSHOT." ;;
           esac
 
-      - name: Publish nbt-core SNAPSHOT to Maven Central
-        if: steps.detect.outputs.core_is_snapshot == 'true'
+      - name: Publish nbt SNAPSHOT to Maven Central
+        if: steps.detect.outputs.nbt_is_snapshot == 'true'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
@@ -90,7 +90,7 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyId: ${{ secrets.SIGNING_IN_MEMORY_KEY_ID }}
           ORG_GRADLE_PROJECT_mavenCentralSigningInMemoryKeyPassword: ${{ secrets.SIGNING_IN_MEMORY_KEY_PASSWORD }}
         # publishToMavenCentral (no AndRelease) is correct for snapshots.
-        run: ./gradlew :nbt-core:publishToMavenCentral --no-configuration-cache --stacktrace
+        run: ./gradlew :nbt:publishToMavenCentral --no-configuration-cache --stacktrace
 
       - name: Publish nbt-mca SNAPSHOT to Maven Central
         if: steps.detect.outputs.mca_is_snapshot == 'true'

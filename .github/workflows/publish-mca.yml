@@ -1,8 +1,8 @@
 name: publish-mca
 
 # Publishes :nbt-mca to the Sonatype Central Portal whenever an `mca-vX.Y.Z`
-# tag is pushed. The complementary `core-v*` tag is handled by publish-core.yml.
-# Each module is released independently — see CHANGELOG-core.md / CHANGELOG-mca.md.
+# tag is pushed. The complementary `nbt-v*` tag is handled by publish-nbt.yml.
+# Each module is released independently — see nbt/CHANGELOG.md / nbt-mca/CHANGELOG.md.
 #
 # Requires the same secrets as publish-snapshot.yml.
 
