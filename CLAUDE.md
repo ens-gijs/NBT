@@ -143,5 +143,5 @@ Same convention for `nbt-mca` and `mcaVersion`.
    release while nbt has unreleased changes.
 
 If you see a CI failure like *"Modified `nbt/src/main/...` but `nbtVersion`
-is still `0.1.1` (a release version). Bump it to the next `-SNAPSHOT`."* —
+is still `0.1.1` (a release version). Bump it to the next SemVer minor `-SNAPSHOT`."* —
 edit `gradle.properties` to bump the version and push again.

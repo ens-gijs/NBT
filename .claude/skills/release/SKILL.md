@@ -171,8 +171,11 @@ If commit 3 applies:
    `-SNAPSHOT` value captured in pre-flight #5). This puts nbt-mca's
    source-build back on the active nbt SNAPSHOT line so subsequent
    nbt-mca SNAPSHOT publishes correctly declare a SNAPSHOT nbt dep.
-3. `git add gradle.properties && git commit -m "Restore nbtVersion to <NBT_DEV_VERSION> after nbt-mca <TARGET_VERSION> release"`.
-4. `git push origin master`.
+3. Edit `gradle.properties`: bump `mcaVersion=<NEXT_MCA_DEV_VERSION>-SNAPSHOT`,
+   compute NEXT_MCA_DEV_VERSION as a SemVer minor bump. This ensures
+   :nbt-mca non-snapshot never depends upon :nbt -snapshot.
+4. `git add gradle.properties && git commit -m "Restore nbtVersion to <NBT_DEV_VERSION> and bump mcaVersion to <NEXT_MCA_DEV_VERSION>-SNAPSHOT after nbt-mca <TARGET_VERSION> release"`.
+5. `git push origin master`.
 
 ## Things to refuse
 
