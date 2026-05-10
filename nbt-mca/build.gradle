@@ -18,6 +18,45 @@ dependencies {
 // inside the same composite build (capability-model collision). The files
 // are tiny; duplication is the pragmatic choice.
 
+// ----------------------------------------------------------------------
+// Cross-module version guard.
+//
+// `api project(':nbt')` resolves at publish time to whatever `nbtVersion`
+// is in gradle.properties — that becomes the version recorded in nbt-mca's
+// published POM. A *release* publish of nbt-mca must NOT pin a -SNAPSHOT
+// version of nbt; that's an unstable artifact masquerading as a release.
+//
+// The /release skill handles this proactively (temp-pin nbtVersion during
+// the release commit, restore in resume-development). This task is the
+// build-time backstop in case the skill is bypassed. See CLAUDE.md
+// "Version coupling between :nbt and :nbt-mca" for the full story.
+// ----------------------------------------------------------------------
+// Fires at task-graph evaluation time (before ANY task in the graph runs)
+// so it beats sibling tasks like signMavenPublication to the punch.
+gradle.taskGraph.whenReady { graph ->
+    def needsCheck = graph.allTasks.any {
+        it.project.path == ':nbt-mca' &&
+                (it.name.startsWith('publish') ||
+                        it.name.startsWith('sign') ||
+                        it.name.startsWith('generatePomFile') ||
+                        it.name.startsWith('generateMetadataFile'))
+    }
+    if (needsCheck) {
+        def mcaV = project.version.toString()
+        def nbtV = project(':nbt').version.toString()
+        if (!mcaV.endsWith('-SNAPSHOT') && nbtV.endsWith('-SNAPSHOT')) {
+            throw new GradleException(
+                    "Refusing to publish nbt-mca:${mcaV} (release) with nbt:${nbtV} (snapshot) dependency.\n" +
+                    "Either:\n" +
+                    "  (A) release :nbt first, OR\n" +
+                    "  (B) temporarily edit nbtVersion in gradle.properties to a previously-released\n" +
+                    "      nbt version (no -SNAPSHOT) for the duration of this publish.\n" +
+                    "See CLAUDE.md 'Version coupling between :nbt and :nbt-mca'."
+            )
+        }
+    }
+}
+
 javadoc {
     destinationDir = file("$rootDir/doc/nbt-mca")
     options.windowTitle 'nbt-mca (ENS)'

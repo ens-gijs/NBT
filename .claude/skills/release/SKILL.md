@@ -43,11 +43,16 @@ skill is only for cutting tagged stable releases.
 - **Target version** — current working version of `<MODULE>` from
   `gradle.properties` (e.g. `0.1.1-SNAPSHOT`). Drop `-SNAPSHOT` and follow
   SemVer (e.g. `0.1.1`).
-- **Next dev version** (default: bump minor and append `-SNAPSHOT`,
-  e.g. `0.2.0-SNAPSHOT`).
 
-Confirm release version number and next dev version number before
-proceeding.
+Confirm release version number before proceeding.
+
+> **Note:** there is no "next dev version" / "resume development" step.
+> After the release, `<VERSION_KEY>` stays at the bare release value
+> (`<TARGET_VERSION>`). The next commit that actually changes `<MODULE>`
+> source is responsible for bumping it to the next `-SNAPSHOT`. See
+> CLAUDE.md "Version coupling between :nbt and :nbt-mca" for the rationale
+> — this convention is what lets us read `gradle.properties` to answer
+> "does `<MODULE>` have unreleased changes?"
 
 ## Pre-flight (run all; abort on any failure)
 
@@ -62,10 +67,34 @@ Report each check's result before proceeding.
 5. **No `-SNAPSHOT` deps in `<MODULE>`'s published POM.** Run
    `./gradlew :<MODULE>:publishToMavenLocal` and grep `<M2_PATH>` POMs for
    `-SNAPSHOT`. The only acceptable match is the project's own version
-   (which is about to be released, so will lose `-SNAPSHOT` in the next
-   step). If `nbt-mca` is being released, its dep on `nbt` must point at
-   a non-SNAPSHOT version on Central — if `nbt` is currently `-SNAPSHOT`,
-   release `nbt` first.
+   (about to be released, so will lose `-SNAPSHOT` in the next step).
+
+   **If releasing `nbt-mca`:** the cross-module dep on `nbt` is the
+   common gotcha. `nbt-mca` declares `api project(':nbt')`, which means
+   the published POM's nbt-version is whatever `nbtVersion` is in
+   `gradle.properties` at publish time. Read it and branch:
+
+   - **`nbtVersion` is a bare release** (e.g. `0.1.1`, no `-SNAPSHOT`):
+     no action needed. The released nbt-mca POM will declare
+     `nbt:0.1.1` automatically. Proceed.
+   - **`nbtVersion` is `-SNAPSHOT`**: nbt has unreleased changes. Two
+     options to surface to the user:
+     - **(A) Release `nbt` first.** Re-enter this skill for
+       `<MODULE>=nbt`, finish that release end-to-end, *then* return to
+       release `nbt-mca`. Both modules end up at fresh release versions.
+     - **(B) Pin to the most recent `nbt-v*` tag.** Look up the latest
+       `nbt-v*` tag (`git tag -l 'nbt-v*' --sort=-v:refname | head -1`),
+       strip the `nbt-v` prefix to get e.g. `0.1.1`. Capture the current
+       `-SNAPSHOT` value as `<NBT_DEV_VERSION>` (e.g. `0.1.2-SNAPSHOT`)
+       so it can be restored after the release commit. The release
+       commit edits `gradle.properties` to set `nbtVersion=0.1.1` **in
+       addition to** the `mcaVersion` bump. After tagging, a follow-up
+       commit restores `nbtVersion=<NBT_DEV_VERSION>` so the unreleased
+       nbt changes keep accumulating.
+
+   The build-time `verifyReleaseDeps` guard in `nbt-mca/build.gradle`
+   will hard-fail the publish if you skip this step — but catching it
+   here saves a CI round-trip.
 6. **Tag doesn't already exist.** `git rev-parse <TAG_PREFIX><VERSION>` should fail.
 7. **Tests pass.** `./gradlew clean build`.
 8. **japicmp baseline check** (only if a previous release of `<MODULE>` exists):
@@ -82,16 +111,27 @@ Each step is a separate commit so the release can be reverted cleanly if needed.
 
 ### Commit 1 — Release commit
 1. Edit `gradle.properties`: set `<VERSION_KEY>=<TARGET_VERSION>` (drop `-SNAPSHOT`).
-2. Edit `<CHANGELOG>`:
+2. **If `<MODULE>=nbt-mca` AND option (B) was chosen in pre-flight #5**
+   (pin to a previously-released `nbt`): also edit `gradle.properties` to
+   set `nbtVersion=<PINNED_NBT_VERSION>` (the bare release, no -SNAPSHOT).
+   Keep `<NBT_DEV_VERSION>` recorded for restoration in the post-release
+   commit below.
+3. Edit `<CHANGELOG>`:
    - Change `## [<TARGET_VERSION>] - TBD` → `## [<TARGET_VERSION>] - <YYYY-MM-DD>`.
    - If the release section is `[Unreleased]`, rename it to
      `[<TARGET_VERSION>] - <date>` and add a fresh empty `[Unreleased]`
      section above.
    - Update the comparison/tag links at the bottom.
-3. Edit `README.md` — if the dependency snippet for `<MODULE>` shows the
+4. Edit `README.md` — if the dependency snippet for `<MODULE>` shows the
    version explicitly, bump it to `<TARGET_VERSION>` (drop `-SNAPSHOT`).
-4. `./gradlew :<MODULE>:build` — final confidence check.
-5. `git add -A && git commit -m "Release <MODULE> <TARGET_VERSION>"`.
+5. `./gradlew :<MODULE>:build` — final confidence check.
+6. `./gradlew :<MODULE>:publishToMavenLocal` — generates the POM that will
+   ship. Verify the dep block: for nbt-mca, the `<dependency>` for
+   `nbt` must show `<version>` as a release (no `-SNAPSHOT`).
+   The `verifyReleaseDeps` task wired into `:nbt-mca:publish*` will
+   refuse the publish anyway if this is wrong; this step catches it
+   one round-trip earlier.
+7. `git add -A && git commit -m "Release <MODULE> <TARGET_VERSION>"`.
 
 ### Commit 2 — Tag, push, wait for publish action, create GitHub release
 1. `git tag -a <TAG_PREFIX><TARGET_VERSION> -m "Release <MODULE> <TARGET_VERSION>"`.
@@ -113,14 +153,26 @@ Each step is a separate commit so the release can be reverted cleanly if needed.
    The `--title` makes the release card readable in the GitHub UI even
    though the tag has the prefix.
 
-### Commit 3 — Resume development
+### Commit 3 — Restore pinned nbtVersion (only if option (B) was used)
+
+**Skip this step entirely unless:** `<MODULE>=nbt-mca` AND `nbtVersion`
+was pinned to a previous release in commit 1 (pre-flight option B).
+
+For all other cases — including the standard nbt release flow and
+nbt-mca releases where nbt was already at a bare release version — the
+release is **complete after commit 2**. There is no "resume development"
+auto-bump. `<VERSION_KEY>` stays at `<TARGET_VERSION>` until a later
+commit actually changes the module's source.
+
+If commit 3 applies:
+
 1. Confirm with the user that everything looks good before proceeding.
-2. Edit `gradle.properties`: set `<VERSION_KEY>=<NEXT_DEV_VERSION>` (with
-   `-SNAPSHOT`).
-3. Edit `README.md` — if the dependency snippet shows the version
-   explicitly, restore it to `<NEXT_DEV_VERSION>`.
-4. `git add -A && git commit -m "Bump <MODULE> version to <NEXT_DEV_VERSION>"`.
-5. `git push origin master`.
+2. Edit `gradle.properties`: restore `nbtVersion=<NBT_DEV_VERSION>` (the
+   `-SNAPSHOT` value captured in pre-flight #5). This puts nbt-mca's
+   source-build back on the active nbt SNAPSHOT line so subsequent
+   nbt-mca SNAPSHOT publishes correctly declare a SNAPSHOT nbt dep.
+3. `git add gradle.properties && git commit -m "Restore nbtVersion to <NBT_DEV_VERSION> after nbt-mca <TARGET_VERSION> release"`.
+4. `git push origin master`.
 
 ## Things to refuse
 
@@ -132,5 +184,7 @@ Each step is a separate commit so the release can be reverted cleanly if needed.
 - Do not generate or modify GPG keys, Sonatype tokens, or
   `~/.gradle/gradle.properties`. Those are user-managed.
 - Do not release `nbt-mca` against a `-SNAPSHOT` `nbt` dependency.
-  If `nbt-mca` is being released and its current `nbt` dep is
-  `-SNAPSHOT`, halt and tell the user to release `nbt` first.
+  If `nbt-mca` is being released and `nbtVersion` in `gradle.properties`
+  is `-SNAPSHOT`, halt and apply pre-flight #5's option (A) or (B)
+  before proceeding. The `verifyReleaseDeps` task in
+  `nbt-mca/build.gradle` is the build-time backstop.
