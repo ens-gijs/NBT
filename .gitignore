@@ -23,6 +23,7 @@ graphify-out/cost.json
 .graphify_old.json
 .graphify_uncached.txt
 .graphify_python
+.graphify_root
 
 
 # gradle gitignore
