@@ -1,0 +1,107 @@
+{
+  BB: [I;
+    22,
+    34,
+    -30,
+    76,
+    69,
+    12
+  ],
+  Children: [
+    {
+      BB: [I;
+        66,
+        34,
+        -30,
+        76,
+        39,
+        -21
+      ],
+      Entrances: [
+        [I;
+          72,
+          35,
+          -30,
+          74,
+          37,
+          -29
+        ],
+        [I;
+          69,
+          35,
+          -22,
+          73,
+          37,
+          -21
+        ]
+      ],
+      GD: 0,
+      MST: 0,
+      O: -1,
+      id: "minecraft:msroom"
+    },
+    {
+      BB: [I;
+        72,
+        35,
+        -45,
+        74,
+        37,
+        -31
+      ],
+      GD: 1,
+      MST: 0,
+      Num: 3,
+      O: 2,
+      hps: 0b,
+      hr: 0b,
+      id: "minecraft:mscorridor",
+      sc: 0b
+    },
+    {
+      BB: [I;
+        22,
+        67,
+        6,
+        24,
+        69,
+        12
+      ],
+      GD: 0,
+      O: -1,
+      PosX: 22,
+      PosY: 67,
+      PosZ: 6,
+      ground_level_delta: 0,
+      id: "minecraft:jigsaw",
+      junctions: [
+        {
+          delta_y: -1,
+          dest_proj: terrain_matching,
+          source_ground_y: 67,
+          source_x: 23,
+          source_z: 9
+        }
+      ],
+      pool_element: {
+        element_type: "minecraft:legacy_single_pool_element",
+        location: "minecraft:pillager_outpost/feature_targets",
+        processors: {
+          processors: []
+        },
+        projection: rigid
+      },
+      rotation: NONE
+    }
+  ],
+  ChunkX: 0,
+  ChunkZ: 0,
+  Processed: [
+    {
+      X: 22,
+      Z: 6
+    }
+  ],
+  id: mashup,
+  references: 0
+}

@@ -1,0 +1,80 @@
+// :nbt — NBT tag types, binary/text I/O, NbtPath query, generic util.
+// No project dependencies. Versioned independently via `nbtVersion` in
+// gradle.properties. Released as `nbt-vX.Y.Z` tags.
+apply plugin: 'me.champeau.jmh'
+
+version = providers.gradleProperty('nbtVersion').get()
+
+javadoc {
+    destinationDir = file("$rootDir/doc/nbt")
+    options.windowTitle 'nbt (ENS)'
+}
+
+// JMH benchmarks currently only exercise nbt code.
+jmh {
+    includes = [".*"]
+    warmupIterations = 5
+    iterations = 10
+    fork = 1
+    resultFormat = 'json'
+    resultsFile = new File("$rootDir/build/reports/jmh/results.json")
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+
+    coordinates(project.group.toString(), 'nbt', project.version.toString())
+
+    pom {
+        name = 'nbt'
+        description = 'NBT tag types, binary/text I/O, and NbtPath query for Minecraft NBT data (forked from Querz/NBT).'
+        url = 'https://github.com/ens-gijs/NBT'
+        inceptionYear = '2024'
+
+        licenses {
+            license {
+                name = 'MIT License'
+                url = 'https://opensource.org/licenses/MIT'
+                distribution = 'repo'
+            }
+        }
+        developers {
+            developer {
+                id = 'ens-gijs'
+                name = 'Ens Gijs (Ross)'
+                url = 'https://github.com/ens-gijs'
+            }
+        }
+        scm {
+            connection = 'scm:git:https://github.com/ens-gijs/NBT.git'
+            developerConnection = 'scm:git:ssh://git@github.com/ens-gijs/NBT.git'
+            url = 'https://github.com/ens-gijs/NBT'
+        }
+        issueManagement {
+            system = 'GitHub'
+            url = 'https://github.com/ens-gijs/NBT/issues'
+        }
+    }
+}
+
+// JFR profiling task — NBT-side workload.
+tasks.register('profilingRun', JavaExec) {
+    mainClass = 'io.github.ensgijs.nbt.profiler.ProfilingRunner'
+    classpath = sourceSets.main.runtimeClasspath
+    classpath += sourceSets.test.runtimeClasspath
+    classpath += sourceSets.jmh.runtimeClasspath
+
+    doFirst {
+        file("$rootDir/build/jfr-profiling").mkdirs()
+    }
+
+    def jfrSettingsFile = sourceSets.jmh.resources.find { it.name == 'profiler_settings.jfc' }
+    if (!jfrSettingsFile) {
+        throw new GradleException("JFR profiler_settings.jfc file not found in jmh/resources folder.")
+    }
+
+    jvmArgs += [
+            "-XX:StartFlightRecording=duration=10s,filename=${rootDir}/build/jfr-profiling/profiling-run.jfr,settings=${jfrSettingsFile.getAbsolutePath()}"
+    ]
+}

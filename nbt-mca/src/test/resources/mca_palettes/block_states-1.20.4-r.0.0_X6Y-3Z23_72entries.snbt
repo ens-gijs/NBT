@@ -1,0 +1,1102 @@
+{
+  palette: [
+    {
+      Name: "minecraft:air"
+    },
+    {
+      Name: "minecraft:cracked_deepslate_bricks"
+    },
+    {
+      Name: "minecraft:deepslate_bricks"
+    },
+    {
+      Name: "minecraft:sculk"
+    },
+    {
+      Name: "minecraft:gray_wool"
+    },
+    {
+      Properties: {
+        facing: south,
+        waterlogged: false,
+        half: top,
+        shape: straight
+      },
+      Name: "minecraft:deepslate_tile_stairs"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: true,
+        west: false,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        facing: west,
+        short: false,
+        type: sticky
+      },
+      Name: "minecraft:piston_head"
+    },
+    {
+      Properties: {
+        facing: west,
+        extended: true
+      },
+      Name: "minecraft:sticky_piston"
+    },
+    {
+      Name: "minecraft:deepslate_tiles"
+    },
+    {
+      Name: "minecraft:cracked_deepslate_tiles"
+    },
+    {
+      Properties: {
+        facing: south,
+        delay: "1",
+        locked: false,
+        powered: true
+      },
+      Name: "minecraft:repeater"
+    },
+    {
+      Properties: {
+        west: false,
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: true
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: false,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        west: side,
+        east: none,
+        power: "13",
+        south: side,
+        north: side
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: false,
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: true
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        west: up,
+        east: side,
+        power: "14",
+        south: none,
+        north: side
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: side,
+        east: side,
+        power: "15",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: none,
+        east: side,
+        power: "0",
+        south: side,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: side,
+        east: side,
+        power: "0",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: side,
+        east: none,
+        power: "0",
+        south: side,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: none,
+        east: none,
+        power: "0",
+        south: side,
+        north: side
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: false,
+        east: true,
+        waterlogged: false,
+        south: true,
+        north: true
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        west: none,
+        east: side,
+        power: "0",
+        south: none,
+        north: side
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: true,
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: true
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        facing: north,
+        face: floor,
+        powered: false
+      },
+      Name: "minecraft:lever"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: true,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        west: true,
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: true,
+        west: false,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: true,
+        west: false,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: true,
+        up: true,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Name: "minecraft:chiseled_deepslate"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: false,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        west: up,
+        east: side,
+        power: "13",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: true,
+        west: false,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: true,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        waterlogged: false,
+        hanging: true
+      },
+      Name: "minecraft:soul_lantern"
+    },
+    {
+      Properties: {
+        facing: south,
+        waterlogged: false,
+        half: bottom,
+        shape: straight
+      },
+      Name: "minecraft:polished_deepslate_stairs"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: false,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        facing: north,
+        waterlogged: false,
+        half: bottom,
+        shape: straight
+      },
+      Name: "minecraft:polished_deepslate_stairs"
+    },
+    {
+      Properties: {
+        waterlogged: false,
+        type: bottom
+      },
+      Name: "minecraft:deepslate_brick_slab"
+    },
+    {
+      Properties: {
+        west: side,
+        east: side,
+        power: "10",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: side,
+        east: side,
+        power: "11",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        west: side,
+        east: side,
+        power: "12",
+        south: none,
+        north: none
+      },
+      Name: "minecraft:redstone_wire"
+    },
+    {
+      Properties: {
+        facing: west,
+        waterlogged: false,
+        half: top,
+        shape: straight
+      },
+      Name: "minecraft:deepslate_tile_stairs"
+    },
+    {
+      Properties: {
+        west: true,
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: true
+      },
+      Name: "minecraft:glass_pane"
+    },
+    {
+      Properties: {
+        west: none,
+        east: none,
+        waterlogged: false,
+        up: true,
+        south: none,
+        north: tall
+      },
+      Name: "minecraft:polished_deepslate_wall"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: false,
+        west: false,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        axis: y
+      },
+      Name: "minecraft:deepslate"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: false,
+        up: false,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: true,
+        up: false,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        sculk_sensor_phase: inactive,
+        waterlogged: false,
+        power: "0"
+      },
+      Name: "minecraft:sculk_sensor"
+    },
+    {
+      Name: "minecraft:polished_deepslate"
+    },
+    {
+      Properties: {
+        candles: "1",
+        waterlogged: false,
+        lit: true
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Properties: {
+        candles: "2",
+        waterlogged: false,
+        lit: true
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Properties: {
+        candles: "4",
+        waterlogged: false,
+        lit: true
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Name: "minecraft:cobbled_deepslate"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: false,
+        west: false,
+        up: false,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        candles: "3",
+        waterlogged: false,
+        lit: false
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Properties: {
+        candles: "1",
+        waterlogged: false,
+        lit: false
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Properties: {
+        candles: "2",
+        waterlogged: false,
+        lit: false
+      },
+      Name: "minecraft:candle"
+    },
+    {
+      Name: "minecraft:soul_fire"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: false,
+        west: false,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        lit: false
+      },
+      Name: "minecraft:redstone_lamp"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: false,
+        west: true,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        facing: south,
+        waterlogged: false,
+        half: top,
+        shape: straight
+      },
+      Name: "minecraft:polished_deepslate_stairs"
+    },
+    {
+      Properties: {
+        sculk_sensor_phase: inactive,
+        waterlogged: true,
+        power: "0"
+      },
+      Name: "minecraft:sculk_sensor"
+    },
+    {
+      Properties: {
+        facing: north,
+        waterlogged: false,
+        half: top,
+        shape: straight
+      },
+      Name: "minecraft:polished_deepslate_stairs"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: true,
+        north: true,
+        west: true,
+        up: false,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: false,
+        waterlogged: false,
+        south: true,
+        north: false,
+        west: false,
+        up: true,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: true,
+        up: true,
+        down: false
+      },
+      Name: "minecraft:sculk_vein"
+    },
+    {
+      Properties: {
+        east: true,
+        waterlogged: false,
+        south: false,
+        north: false,
+        west: false,
+        up: false,
+        down: true
+      },
+      Name: "minecraft:sculk_vein"
+    }
+  ],
+  data: [L;
+    144682605065797632,
+    8831262310657,
+    290499906672591360,
+    144115189158052356,
+    145245555021349122,
+    8830463279362,
+    361422667800133760,
+    654187739694006533,
+    5673826031649929,
+    944093669569331200,
+    214669,
+    247552,
+    1155173304420533888,
+    1379874520684298257,
+    5110841699469843,
+    1513209474840526848,
+    138521444352,
+    101155069755392,
+    109951187946518,
+    300615275126980608,
+    426500,
+    435750064544336275,
+    0,
+    1960874369989214208,
+    15318499077442971,
+    0,
+    0,
+    0,
+    144682605063700480,
+    2091482325882781954,
+    290499906672591235,
+    290499906727117316,
+    145245520930029697,
+    377752716776079746,
+    363111586121990274,
+    726250486071591173,
+    73187961253971081,
+    864691128455168258,
+    73192359298371597,
+    52776558133250,
+    289360743636189571,
+    73746893796557316,
+    720576009371435393,
+    3527683468313738,
+    290578932988642048,
+    4484,
+    1875749388144345088,
+    0,
+    114487730733056,
+    0,
+    12681996,
+    1947243888884318208,
+    14129157295515,
+    1236951027075,
+    20266198323167232,
+    0,
+    0,
+    2666130989413646336,
+    2270396278067877,
+    290501074895307268,
+    2832201215671075332,
+    435896138260807719,
+    73192324670194438,
+    2884005909135114497,
+    149784581703353482,
+    439839939371237505,
+    145250230107897869,
+    57185348403458,
+    73187961253971072,
+    648519835171029379,
+    145254385474109833,
+    654192138284171266,
+    1171721487625,
+    217875136433423526,
+    216172785603444780,
+    24783095980949764,
+    290495370104931968,
+    936750235133198724,
+    219576973997899789,
+    936748722585387395,
+    3268123326758830080,
+    119675774042541,
+    3489660974,
+    7318349395230720,
+    27262976,
+    1664,
+    458805208470781952,
+    288232025419153967,
+    2471853008410752,
+    0,
+    206171013888,
+    144686969021038848,
+    145249918704730152,
+    3697464159424758018,
+    145249953338376192,
+    1374930632961,
+    145249953336279297,
+    217298682104529154,
+    144687003382857858,
+    73192393928655105,
+    73750911205277954,
+    290499803322794242,
+    73759741658022146,
+    145258749964108161,
+    217307547644756098,
+    144686969564233987,
+    145817301067809153,
+    216740199374307713,
+    144682639964553603,
+    73759707296186498,
+    72629409347059969,
+    145249987966583171,
+    216740199105855875,
+    4467577635203,
+    0,
+    0,
+    27597741857177652,
+    802865,
+    0,
+    73187926351020032,
+    5121,
+    2883434094371274801,
+    3559748059761999872,
+    175991118921903,
+    144693028949327872,
+    3386706930522145026,
+    144682605144195072,
+    217870497327644930,
+    72629409344930179,
+    145817335966498946,
+    145245555294011906,
+    289365175769792642,
+    145245555289784863,
+    290499837414113409,
+    145249953336295680,
+    145249953334182274,
+    217307547105771778,
+    144682605067911426,
+    144691401427288322,
+    145249953336295682,
+    145249953604714754,
+    217874895644672258,
+    258,
+    0,
+    13958643712,
+    384,
+    0,
+    0,
+    0,
+    0,
+    0,
+    239315577733120,
+    0,
+    176233628123136,
+    3819052484010180608,
+    1374931524533,
+    73435797503613105,
+    215504362963202,
+    73192359298383872,
+    3558623843594359809,
+    145245563074412803,
+    145804037936994984,
+    3892244843037999361,
+    145249987154942647,
+    653624824373068034,
+    145249953070072969,
+    653624790015427721,
+    653589328869490954,
+    221279225787761034,
+    217874930004443523,
+    311672587401,
+    0,
+    3746994889972252672,
+    103079215104,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    17587787997904896,
+    0,
+    255170449506304,
+    27584547717644288,
+    5111808,
+    1683627180032,
+    122585346,
+    175640385571045376,
+    990523,
+    6272,
+    3530822107858468864,
+    3558406655576113152,
+    3558623846187828361,
+    27584560974551217,
+    4430123576756011008,
+    13282270909,
+    0,
+    1015808,
+    2305843009345814528,
+    4543,
+    19140298416324608,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    875136,
+    3891110078048108544,
+    53,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    206708186021888,
+    0,
+    4066998693415387392,
+    145524502255508536,
+    175888615368170497,
+    4683743613006414081,
+    36730319797231775,
+    2271076451543416832,
+    115432143552512,
+    295752253308928,
+    141025664,
+    0,
+    6,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    770095,
+    247706844587081728,
+    4066754930823535672,
+    4066998678806610360,
+    217870497325531394,
+    1795136946176,
+    53123,
+    4917534968967597952,
+    3746994889972256031,
+    1825292381329951,
+    0,
+    1610612736,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    99342208,
+    144116802983559168,
+    73192377377931521,
+    145245486838733825,
+    4036360031382290690,
+    6340994,
+    1683627180032,
+    0,
+    13154140160,
+    0,
+    6272,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    6016,
+    145817335966466095,
+    217305019249082626,
+    73187961251856512,
+    13312369492225,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1614907703296,
+    217861644590514176,
+    654187774326391171,
+    653629219990968248,
+    4066998680700470410,
+    573699,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3386706919782612992,
+    1614907703296,
+    39685497864239,
+    216746935779427593,
+    4066790048369000842,
+    8865625021496,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    98572160,
+    722264790239549568,
+    32296483598418177,
+    217908051980582912,
+    129,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    206708186021888,
+    0,
+    1702147622174720,
+    0,
+    1924688560512,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    6016,
+    650207196201615360,
+    49539,
+    217874929192796160,
+    3
+  ]
+}

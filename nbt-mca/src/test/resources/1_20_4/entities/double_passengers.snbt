@@ -1,0 +1,429 @@
+{
+  DataVersion: 3700,
+  Entities: [
+    {
+      AbsorptionAmount: 0.0f,
+      Air: 300s,
+      ArmorDropChances: [
+        0.085f,
+        0.085f,
+        0.085f,
+        0.085f
+      ],
+      ArmorItems: [
+        {},
+        {},
+        {},
+        {}
+      ],
+      AttackTick: 0,
+      Attributes: [
+        {
+          Base: 0.3d,
+          Name: "minecraft:generic.movement_speed"
+        }
+      ],
+      Brain: {
+        memories: {}
+      },
+      CanJoinRaid: 0b,
+      CanPickUpLoot: 0b,
+      DeathTime: 0s,
+      FallDistance: 0.0f,
+      FallFlying: 0b,
+      Fire: -1s,
+      HandDropChances: [
+        0.085f,
+        0.085f
+      ],
+      HandItems: [
+        {},
+        {}
+      ],
+      Health: 100.0f,
+      HurtByTimestamp: 0,
+      HurtTime: 0s,
+      Invulnerable: 0b,
+      LeftHanded: 0b,
+      Motion: [
+        0.0d,
+        -0.0784000015258789d,
+        0.0d
+      ],
+      OnGround: 1b,
+      Passengers: [
+        {
+          AbsorptionAmount: 0.0f,
+          Air: 300s,
+          ArmorDropChances: [
+            0.085f,
+            0.085f,
+            0.085f,
+            0.085f
+          ],
+          ArmorItems: [
+            {},
+            {},
+            {},
+            {}
+          ],
+          Attributes: [
+            {
+              Base: 0.3499999940395355d,
+              Name: "minecraft:generic.movement_speed"
+            }
+          ],
+          Brain: {
+            memories: {}
+          },
+          CanJoinRaid: 0b,
+          CanPickUpLoot: 1b,
+          DeathTime: 0s,
+          FallDistance: 0.0f,
+          FallFlying: 0b,
+          Fire: -1s,
+          HandDropChances: [
+            0.085f,
+            0.085f
+          ],
+          HandItems: [
+            {
+              Count: 1b,
+              id: "minecraft:crossbow",
+              tag: {
+                Damage: 0
+              }
+            },
+            {}
+          ],
+          Health: 24.0f,
+          HurtByTimestamp: 0,
+          HurtTime: 0s,
+          Inventory: [],
+          Invulnerable: 0b,
+          LeftHanded: 0b,
+          Motion: [
+            0.0d,
+            -0.0784000015258789d,
+            0.0d
+          ],
+          OnGround: 0b,
+          Passengers: [
+            {
+              AbsorptionAmount: 0.0f,
+              Air: 300s,
+              ArmorDropChances: [
+                0.085f,
+                0.085f,
+                0.085f,
+                0.085f
+              ],
+              ArmorItems: [
+                {},
+                {},
+                {},
+                {}
+              ],
+              Attributes: [
+                {
+                  Base: 0.23000000417232513d,
+                  Name: "minecraft:generic.movement_speed"
+                }
+              ],
+              Brain: {
+                memories: {}
+              },
+              CanBreakDoors: 0b,
+              CanPickUpLoot: 0b,
+              DeathTime: 0s,
+              DrownedConversionTime: -1,
+              FallDistance: 0.0f,
+              FallFlying: 0b,
+              Fire: 157s,
+              HandDropChances: [
+                0.085f,
+                0.085f
+              ],
+              HandItems: [
+                {},
+                {}
+              ],
+              Health: 14.0f,
+              HurtByTimestamp: 0,
+              HurtTime: 7s,
+              InWaterTime: -1,
+              Invulnerable: 0b,
+              IsBaby: 1b,
+              LeftHanded: 0b,
+              Motion: [
+                0.0d,
+                -0.0784000015258789d,
+                0.0d
+              ],
+              OnGround: 0b,
+              PersistenceRequired: 0b,
+              PortalCooldown: 0,
+              Pos: [
+                11.435331581942496d,
+                74.31250002980232d,
+                6.967756238280857d
+              ],
+              Rotation: [
+                0.0f,
+                -25.155565f
+              ],
+              UUID: [I;
+                162650337,
+                1260538818,
+                -1740427671,
+                2004001158
+              ],
+              id: "minecraft:zombie"
+            }
+          ],
+          PatrolLeader: 0b,
+          Patrolling: 0b,
+          PersistenceRequired: 0b,
+          PortalCooldown: 0,
+          Pos: [
+            11.435331581942496d,
+            72.66250002384186d,
+            7.030256238280857d
+          ],
+          Rotation: [
+            0.0f,
+            0.0f
+          ],
+          UUID: [I;
+            -9855309,
+            1771589144,
+            -1107932188,
+            451046003
+          ],
+          Wave: 0,
+          id: "minecraft:pillager"
+        }
+      ],
+      PatrolLeader: 0b,
+      Patrolling: 0b,
+      PersistenceRequired: 0b,
+      PortalCooldown: 0,
+      Pos: [
+        11.435331581942496d,
+        71.0d,
+        7.030256238280857d
+      ],
+      RoarTick: 0,
+      Rotation: [
+        0.0f,
+        0.0f
+      ],
+      StunTick: 0,
+      UUID: [I;
+        -28138968,
+        955206211,
+        -1680062184,
+        -956722909
+      ],
+      Wave: 0,
+      id: "minecraft:ravager"
+    },
+    {
+      AbsorptionAmount: 0.0f,
+      Air: 300s,
+      ArmorDropChances: [
+        0.085f,
+        0.085f,
+        0.085f,
+        0.085f
+      ],
+      ArmorItems: [
+        {},
+        {},
+        {},
+        {}
+      ],
+      Attributes: [
+        {
+          Base: 16.0d,
+          Modifiers: [
+            {
+              Amount: 0.006869090403130357d,
+              Name: "Random spawn bonus",
+              Operation: 1,
+              UUID: [I;
+                -782296959,
+                1082084202,
+                -1138745496,
+                1799387745
+              ]
+            }
+          ],
+          Name: "minecraft:generic.follow_range"
+        },
+        {
+          Base: 0.30000001192092896d,
+          Name: "minecraft:generic.movement_speed"
+        }
+      ],
+      Brain: {
+        memories: {}
+      },
+      CanPickUpLoot: 0b,
+      DeathTime: 0s,
+      FallDistance: 0.0f,
+      FallFlying: 0b,
+      Fire: -1s,
+      HandDropChances: [
+        0.085f,
+        0.085f
+      ],
+      HandItems: [
+        {},
+        {}
+      ],
+      Health: 16.0f,
+      HurtByTimestamp: 0,
+      HurtTime: 0s,
+      Invulnerable: 0b,
+      LeftHanded: 0b,
+      Motion: [
+        0.0d,
+        -0.0784000015258789d,
+        0.0d
+      ],
+      OnGround: 1b,
+      PersistenceRequired: 0b,
+      PortalCooldown: 0,
+      Pos: [
+        12.124114279023473d,
+        -47.0d,
+        15.745077035996138d
+      ],
+      Rotation: [
+        25.470459f,
+        0.0f
+      ],
+      UUID: [I;
+        289330613,
+        1998930528,
+        -1880759828,
+        -892464562
+      ],
+      id: "minecraft:spider"
+    },
+    {
+      AbsorptionAmount: 0.0f,
+      Air: 300s,
+      ArmorDropChances: [
+        0.085f,
+        0.085f,
+        0.085f,
+        0.085f
+      ],
+      ArmorItems: [
+        {},
+        {},
+        {},
+        {}
+      ],
+      Attributes: [
+        {
+          Base: 0.07786879225751496d,
+          Name: "minecraft:zombie.spawn_reinforcements"
+        },
+        {
+          Base: 35.0d,
+          Modifiers: [
+            {
+              Amount: 0.049743735644221014d,
+              Name: "Random spawn bonus",
+              Operation: 1,
+              UUID: [I;
+                -604691912,
+                1147553982,
+                -1697511381,
+                237360885
+              ]
+            }
+          ],
+          Name: "minecraft:generic.follow_range"
+        },
+        {
+          Base: 0.0d,
+          Modifiers: [
+            {
+              Amount: 0.002548257857959571d,
+              Name: "Random spawn bonus",
+              Operation: 0,
+              UUID: [I;
+                -38604889,
+                -855817857,
+                -1569138175,
+                248874423
+              ]
+            }
+          ],
+          Name: "minecraft:generic.knockback_resistance"
+        },
+        {
+          Base: 0.23000000417232513d,
+          Name: "minecraft:generic.movement_speed"
+        }
+      ],
+      Brain: {
+        memories: {}
+      },
+      CanBreakDoors: 0b,
+      CanPickUpLoot: 0b,
+      DeathTime: 0s,
+      DrownedConversionTime: -1,
+      FallDistance: 0.0f,
+      FallFlying: 0b,
+      Fire: -1s,
+      HandDropChances: [
+        0.085f,
+        0.085f
+      ],
+      HandItems: [
+        {},
+        {}
+      ],
+      Health: 20.0f,
+      HurtByTimestamp: 0,
+      HurtTime: 0s,
+      InWaterTime: 0,
+      Invulnerable: 0b,
+      IsBaby: 0b,
+      LeftHanded: 0b,
+      Motion: [
+        0.0d,
+        -0.005d,
+        0.0d
+      ],
+      OnGround: 1b,
+      PersistenceRequired: 0b,
+      PortalCooldown: 0,
+      Pos: [
+        2.5d,
+        -4.0d,
+        2.5d
+      ],
+      Rotation: [
+        206.74269f,
+        0.0f
+      ],
+      UUID: [I;
+        1593312871,
+        1490307227,
+        -1833698099,
+        -1435585598
+      ],
+      id: "minecraft:drowned"
+    }
+  ],
+  Position: [I;
+    0,
+    0
+  ]
+}

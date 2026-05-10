@@ -71,3 +71,77 @@ Reads/writes Minecraft Java Edition region (`.mca`) files, supporting MC 1.9.0 �
 ## Project status
 
 Per `README.md`, the library is under heavy development. The NBT half is largely stable; the MCA half is still iterating, with the chunk class hierarchy explicitly flagged for refactor. Treat existing patterns (especially `DataVersion`-gated behavior and the palette utilities) as load-bearing.
+
+## Version coupling between `:nbt` and `:nbt-mca`
+
+Two modules, two versions in `gradle.properties` (`nbtVersion`, `mcaVersion`).
+`nbt-mca` declares its dependency on `nbt` via `api project(':nbt')` — a Gradle
+project dependency that auto-resolves at evaluation time. **Don't replace it with
+a hardcoded coordinate string** (`api 'io.github.ens-gijs.nbt:nbt:0.x.y'`) — the
+project-dep is what makes the rules below "just work."
+
+### The version-state convention
+
+The value of each `xVersion` property in `gradle.properties` reflects "the next
+thing that will be published," and **encodes whether the module has unreleased
+changes**:
+
+| `nbtVersion` value         | What it means                                             |
+| -------------------------- | --------------------------------------------------------- |
+| Bare release, e.g. `0.1.1` | nbt has no unreleased changes since `nbt-v0.1.1` shipped. |
+| `-SNAPSHOT`, e.g. `0.1.2-SNAPSHOT` | nbt has unreleased changes accumulating toward `0.1.2`. |
+
+After releasing nbt 0.1.1, **`nbtVersion` stays at `0.1.1`**. There is no
+"resume development" auto-bump. The first commit that touches `nbt/src/main/**`
+must also bump `nbtVersion` to the next `-SNAPSHOT` (e.g. `0.1.2-SNAPSHOT`) in
+the same commit. From then on, the snapshot workflow publishes that SNAPSHOT
+on every push.
+
+Same convention for `nbt-mca` and `mcaVersion`.
+
+### What this gives us
+
+- "Does nbt have changes that need releasing before nbt-mca releases?" is
+  answered by reading one line of `gradle.properties`.
+- nbt-mca's release flow doesn't need a temp-pin dance in the common case —
+  if `nbtVersion` is already a bare release, the published POM declares the
+  correct release dep automatically.
+- The snapshot workflow's per-module SNAPSHOT detection naturally skips
+  publishing a module whose version is a bare release (no double-publish of
+  release versions to Central's snapshot repo).
+
+### Source-time rule
+
+`nbt-mca` source builds always see whatever `nbtVersion` currently is, via
+`api project(':nbt')`. No manual sync needed.
+
+### Publish-time rules
+
+- **SNAPSHOT publish of nbt-mca** declares a dep on whatever nbt version is
+  current — `nbt:<x>-SNAPSHOT` if nbt has unreleased changes, otherwise
+  `nbt:<x>` (a release version). Both are fine.
+- **Release publish of nbt-mca** must declare a dep on a *released* version
+  of nbt. In the steady state (nbt has no unreleased changes), this is
+  automatic. If nbt has unreleased changes, the release skill walks the
+  user through "release nbt first" or "pin to a previous nbt release."
+
+### Enforcement layers
+
+1. **CI check on PRs** (in `.github/workflows/build.yml`) — fails if a PR
+   modifies `<module>/src/main/**` but `<module>Version` in
+   `gradle.properties` is unchanged AND not a `-SNAPSHOT`. Forces the
+   convention at PR review time.
+2. **CI check on direct pushes to master** (in `.github/workflows/publish-snapshot.yml`)
+   — same logic, comparing HEAD against HEAD~1, in case someone bypasses
+   PR review.
+3. **Build-time guard in `nbt-mca/build.gradle`** — `gradle.taskGraph.whenReady`
+   hook hard-fails any nbt-mca publish where `mcaVersion` is a release
+   (no `-SNAPSHOT`) but the resolved `:nbt` version is `-SNAPSHOT`. Backstop
+   for the truly bypass-everything case.
+4. **Release skill** — codifies the procedure for both modules, including
+   the "release nbt first / pin to previous" branch when nbt-mca needs to
+   release while nbt has unreleased changes.
+
+If you see a CI failure like *"Modified `nbt/src/main/...` but `nbtVersion`
+is still `0.1.1` (a release version). Bump it to the next SemVer minor `-SNAPSHOT`."* —
+edit `gradle.properties` to bump the version and push again.

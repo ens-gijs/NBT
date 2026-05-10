@@ -1,0 +1,16 @@
+{
+  palette: [
+    "minecraft:snowy_taiga",
+    "minecraft:snowy_plains",
+    "minecraft:snowy_slopes",
+    "minecraft:grove",
+    "minecraft:deep_dark",
+    "minecraft:dripstone_caves"
+  ],
+  data: [L;
+    3785436329631921288,
+    3932602464921073299,
+    2797418351439529682,
+    4
+  ]
+}

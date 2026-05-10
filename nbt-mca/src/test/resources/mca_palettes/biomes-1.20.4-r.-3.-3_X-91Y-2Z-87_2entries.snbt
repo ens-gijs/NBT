@@ -1,0 +1,9 @@
+biomes: {
+  data: [L;
+    5764327143275102208
+  ],
+  palette: [
+    "minecraft:savanna",
+    "minecraft:dripstone_caves"
+  ]
+}
