@@ -9,10 +9,10 @@ data and `.mca` region files (mca support is for MC Java only).
 
 ## The two modules
 
-| Module                                              | What it gives you                                                                                                                                                              | Depend on this if…                                                        |
-| --------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [**`nbt`**](nbt/) `0.1.1-SNAPSHOT`        | NBT library with binary & SNBT (text) I/O, [`NbtPath`](nbt/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java), pretty printing, and more.                            | You want NBT data processing only.                                        |
-| [**`nbt-mca`**](nbt-mca/) `0.2.0-SNAPSHOT`          | Minecraft Java Edition `.mca` region/entities/POI file support, chunk relocation, palette utilities. Depends on `nbt` via Gradle `api` so you get NBT types transitively. | You're working with `.mca` region files. *You're probably here for this.* |
+| Module                            | What it gives you                                                                                                                                                              | Depend on this if…                                                        |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [**`nbt`**](nbt/) `0.1.1`         | NBT library with binary & SNBT (text) I/O, [`NbtPath`](nbt/src/main/java/io/github/ensgijs/nbt/query/NbtPath.java), pretty printing, and more.                            | You want NBT data processing only.                                        |
+| [**`nbt-mca`**](nbt-mca/) `0.2.0` | Minecraft Java Edition `.mca` region/entities/POI file support, chunk relocation, palette utilities. Depends on `nbt` via Gradle `api` so you get NBT types transitively. | You're working with `.mca` region files. *You're probably here for this.* |
 
 Both are published to **Maven Central**. `-SNAPSHOT` builds are pushed to
 **Central's snapshot repository** automatically when `master` is updated —
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT'
+    implementation 'io.github.ens-gijs.nbt:nbt-mca:0.2.0'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 <dependency>
     <groupId>io.github.ens-gijs.nbt</groupId>
     <artifactId>nbt-mca</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -136,9 +136,9 @@ your dependency to `nbt` instead.
 
 If you were previously consuming this fork via `./gradlew publishToMavenLocal`:
 
-| Before                                       | After                                                     |
-| -------------------------------------------- | --------------------------------------------------------- |
-| `io.github.ensgijs:ens-nbt:0.1-SNAPSHOT`     | `io.github.ens-gijs.nbt:nbt-mca:0.2.0-SNAPSHOT`           |
+| Before                                       | After                                      |
+| -------------------------------------------- |--------------------------------------------|
+| `io.github.ensgijs:ens-nbt:0.1-SNAPSHOT`     | `io.github.ens-gijs.nbt:nbt-mca:0.2.0`     |
 
 The Java package layout (`io.github.ensgijs.nbt.*`) is unchanged.
 

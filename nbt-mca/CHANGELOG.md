@@ -10,7 +10,7 @@ Releases are cut as `mca-vX.Y.Z` git tags handled by
 
 ## [Unreleased]
 
-## [0.2.0] - TBD
+## [0.2.0] - 2026-05-10
 
 Module split: the NBT-format classes that previously shipped inside
 `nbt-mca:0.1.0` (`io.github.ensgijs.nbt.{tag,io,query,util}`) have been
