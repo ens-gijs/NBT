@@ -10,7 +10,7 @@ Releases are cut as `nbt-vX.Y.Z` git tags handled by
 
 ## [Unreleased]
 
-## [0.1.1] - TBD
+## [0.1.1] - 2026-05-10
 
 First independent release of `nbt` after splitting `nbt-mca` (released
 0.1.0 as a single artifact) into two modules. The Java packages

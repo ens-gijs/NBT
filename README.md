@@ -99,7 +99,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.ens-gijs.nbt:nbt:0.1.1-SNAPSHOT'
+    implementation 'io.github.ens-gijs.nbt:nbt:0.1.1'
 }
 ```
 
@@ -107,7 +107,7 @@ dependencies {
 <dependency>
     <groupId>io.github.ens-gijs.nbt</groupId>
     <artifactId>nbt</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
