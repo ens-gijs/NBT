@@ -963,6 +963,7 @@ public enum DataVersion {
     JAVA_26_2_0_PRE6(4900, 26, 2, 0, "PRE-6"),
     JAVA_26_2_0_RC1(4901, 26, 2, 0, "RC-1"),
     JAVA_26_2_0_RC2(4902, 26, 2, 0, "RC-2"),
+    JAVA_26_2_0(4903, 26, 2, 0),
     ;
 
     private static final int[] ids;
