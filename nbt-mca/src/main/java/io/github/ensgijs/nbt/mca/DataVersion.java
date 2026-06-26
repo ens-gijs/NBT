@@ -943,8 +943,8 @@ public enum DataVersion {
     JAVA_26_1_0(4786, 26, 1, 0),
     JAVA_26_1_1_RC1(4787, 26, 1, 1, "RC-1"),
     JAVA_26_1_1(4788, 26, 1, 1),
-    //    // April-fools joke fork of 26.1.1, this enum value was redacted due to the use of an out-of-order data version.
-//    // JAVA_26_1_1_26W14A(5000, 26, 1, 1, "26w14a"),
+    // April-fools joke fork of 26.1.1, this enum value was redacted due to the use of an out-of-order data version.
+    // JAVA_26_1_1_26W14A(5000, 26, 1, 1, "26w14a"),
     JAVA_26_1_2_RC1(4789, 26, 1, 2, "RC-1"),
     JAVA_26_1_2(4790, 26, 1, 2),
     JAVA_26_2_0_SNAPSHOT1(4883, 26, 2, 0, "SNAPSHOT-1"),
@@ -964,6 +964,7 @@ public enum DataVersion {
     JAVA_26_2_0_RC1(4901, 26, 2, 0, "RC-1"),
     JAVA_26_2_0_RC2(4902, 26, 2, 0, "RC-2"),
     JAVA_26_2_0(4903, 26, 2, 0),
+    JAVA_26_3_0_SNAPSHOT1(4998, 26, 3, 0, "SNAPSHOT-1"),
     ;
 
     private static final int[] ids;
